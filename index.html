@@ -317,7 +317,7 @@
             const tamanoGarajes = parseFloat(document.getElementById('tamano_garajes').value);
             const patios = parseInt(document.getElementById('patios').value);
             const tamanoPatios = parseFloat(document.getElementById('tamano_patios').value);
-            const terrazas = parseInt(document.getElementById('terrazas').value);
+            const terrazas = parseInt(document.getElementById('terrazas').value); // Corrección aquí
             const tamanoTerrazas = parseFloat(document.getElementById('tamano_terrazas').value);
             const circulacion = parseFloat(document.getElementById('circulacion').value) / 100;
             const imprevistos = parseFloat(document.getElementById('imprevistos').value) / 100;
@@ -396,6 +396,7 @@
                 nombre, telefono, correo, contactar, feedback, fechaActual, tipoTexto,
                 m2Recamaras, recamaras, m2Salas, salas, m2Cocinas, cocinas, m2Banos, banos,
                 m2Comedores, comedores, m2Garajes, garajes, m2Patios, patios, m2Terrazas,
+                terrazas, // Corrección aquí: almacenamos el valor, no el elemento
                 circulacion, m2Circulacion, m2Totales, costoEstudios, costoProyectoEjecutivo,
                 costoPermisos, costoPlaneacionTotal, presupuestoBase, imprevistos, costoImprevistos,
                 presupuestoConstruccionTotal, presupuestoTotal, mensajePersonalizado, contactoUsuario, feedbackTexto
@@ -433,9 +434,10 @@
             }
 
             const { nombre, fechaActual, tipoTexto, m2Recamaras, recamaras, m2Salas, salas, m2Cocinas, cocinas, m2Banos, banos,
-                m2Comedores, comedores, m2Garajes, garajes, m2Patios, patios, m2Terrazas, circulacion, m2Circulacion,
-                m2Totales, costoEstudios, costoProyectoEjecutivo, costoPermisos, costoPlaneacionTotal, presupuestoBase,
-                imprevistos, costoImprevistos, presupuestoConstruccionTotal, presupuestoTotal, mensajePersonalizado,
+                m2Comedores, comedores, m2Garajes, garajes, m2Patios, patios, m2Terrazas, terrazas,
+                circulacion, m2Circulacion, m2Totales, costoEstudios, costoProyectoEjecutivo,
+                costoPermisos, costoPlaneacionTotal, presupuestoBase, imprevistos, costoImprevistos,
+                presupuestoConstruccionTotal, presupuestoTotal, mensajePersonalizado,
                 contactoUsuario, feedbackTexto } = window.resultData;
 
             const { jsPDF } = window.jspdf;
