@@ -5,44 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Presupuesto de Casa</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            max-width: 800px;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5c27a 0%, #a67c52 50%, #6b8e23 100%); /* Gradiente otoñal */
+            max-width: 900px;
             margin: 0 auto;
-            padding: 30px;
-            color: #333;
+            padding: 40px 20px;
+            color: #4a3c31; /* Marrón oscuro para el texto */
         }
         h2 {
+            font-family: 'Playfair Display', serif;
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 20px;
+            color: #6b8e23; /* Verde musgo para el título */
+            margin-bottom: 15px;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
         p {
             text-align: center;
-            color: #7f8c8d;
+            color: #7f6a44; /* Marrón medio para subtítulos */
             margin-bottom: 30px;
+            font-size: 1.1em;
         }
         .section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            background: #fffaf0; /* Beige claro para el fondo de la sección */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+            margin-bottom: 30px;
+            border: 1px solid #e6d5b8; /* Borde sutil en tono beige */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .section:hover {
+            transform: translateY(-5px); /* Efecto de elevación al pasar el mouse */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
         }
         label {
             display: block;
-            margin: 15px 0 5px;
-            font-weight: bold;
+            margin: 20px 0 8px;
+            font-weight: 500;
+            color: #4a3c31;
+            font-size: 1.05em;
         }
         select, input[type="number"], input[type="text"], input[type="tel"], input[type="email"], textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 12px;
+            border: 1px solid #d4a373; /* Borde en tono otoñal */
+            border-radius: 8px;
             box-sizing: border-box;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            background: #fff;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05); /* Sombra interna */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            font-size: 1em;
+            color: #4a3c31;
+        }
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #6b8e23; /* Verde musgo al enfocar */
+            box-shadow: 0 0 8px rgba(107, 142, 35, 0.3); /* Brillo al enfocar */
         }
         textarea {
             resize: vertical;
@@ -51,53 +75,105 @@
             -webkit-appearance: none;
             width: 100%;
             cursor: pointer;
+            background: #e6d5b8; /* Fondo del slider en beige */
+            border-radius: 5px;
+            height: 8px;
+            margin: 10px 0;
         }
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 20px;
             width: 20px;
-            background: #3498db;
+            background: #6b8e23; /* Verde musgo para el thumb */
             border-radius: 50%;
             cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2); /* Efecto de agrandamiento al pasar el mouse */
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
         }
         input[type="range"]::-moz-range-thumb {
             height: 20px;
             width: 20px;
-            background: #3498db;
+            background: #6b8e23;
             border-radius: 50%;
             cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
         }
         .slider-value {
-            font-size: 14px;
-            color: #7f8c8d;
-            margin-top: 10px;
+            font-size: 0.9em;
+            color: #7f6a44;
+            margin-top: 5px;
         }
         .checkbox-container {
-            font-size: 14px;
+            font-size: 0.95em;
             margin: 15px 0;
+            color: #4a3c31;
         }
         button {
             display: block;
             width: 100%;
-            padding: 12px;
-            background-color: #3498db;
-            color: white;
+            padding: 14px;
+            background: #6b8e23; /* Verde musgo para los botones */
+            color: #fffaf0;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin-bottom: 10px;
+            font-size: 1.1em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
+            margin-bottom: 15px;
         }
         button:hover {
-            background-color: #2980b9;
+            background: #556b2f; /* Verde más oscuro al pasar el mouse */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(107, 142, 35, 0.5); /* Brillo al hacer hover */
+        }
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(107, 142, 35, 0.2);
         }
         #resultado {
-            margin-top: 20px;
-            padding: 20px;
-            background: #ecf0f1;
-            border-radius: 5px;
+            margin-top: 30px;
+            padding: 25px;
+            background: #fdf5e6; /* Fondo beige más cálido para el resultado */
+            border-radius: 10px;
+            border: 1px solid #e6d5b8;
             text-align: left;
-            line-height: 1.6;
+            line-height: 1.8;
+            color: #4a3c31;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        /* Animación para el resultado */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        a {
+            color: #d4a373; /* Enlace en tono otoñal */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #b8860b; /* Dorado oscuro al pasar el mouse */
+            text-decoration: underline;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -271,7 +347,7 @@
     <script type="text/javascript">
         (function() {
             console.log('Inicializando EmailJS con Public Key: JdnjCBdzrzNAvkcnW');
-            emailjs.init('JdnjCBdzrzNAvkcnW'); // Nueva Public Key
+            emailjs.init('JdnjCBdzrzNAvkcnW');
         })();
     </script>
     <script>
@@ -317,7 +393,7 @@
             const tamanoGarajes = parseFloat(document.getElementById('tamano_garajes').value);
             const patios = parseInt(document.getElementById('patios').value);
             const tamanoPatios = parseFloat(document.getElementById('tamano_patios').value);
-            const terrazas = parseInt(document.getElementById('terrazas').value); // Corrección aquí
+            const terrazas = parseInt(document.getElementById('terrazas').value);
             const tamanoTerrazas = parseFloat(document.getElementById('tamano_terrazas').value);
             const circulacion = parseFloat(document.getElementById('circulacion').value) / 100;
             const imprevistos = parseFloat(document.getElementById('imprevistos').value) / 100;
@@ -396,13 +472,12 @@
                 nombre, telefono, correo, contactar, feedback, fechaActual, tipoTexto,
                 m2Recamaras, recamaras, m2Salas, salas, m2Cocinas, cocinas, m2Banos, banos,
                 m2Comedores, comedores, m2Garajes, garajes, m2Patios, patios, m2Terrazas,
-                terrazas, // Corrección aquí: almacenamos el valor, no el elemento
+                terrazas,
                 circulacion, m2Circulacion, m2Totales, costoEstudios, costoProyectoEjecutivo,
                 costoPermisos, costoPlaneacionTotal, presupuestoBase, imprevistos, costoImprevistos,
                 presupuestoConstruccionTotal, presupuestoTotal, mensajePersonalizado, contactoUsuario, feedbackTexto
             };
 
-            // Enviar el correo si hay una sugerencia
             if (feedback) {
                 console.log('Enviando correo con parámetros:', {
                     nombre: nombre || 'Usuario Anónimo',
