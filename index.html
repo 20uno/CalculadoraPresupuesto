@@ -261,12 +261,9 @@
         <label for="feedback">Sugerencias o Preguntas (Opcional):</label>
         <textarea id="feedback" rows="4" placeholder="¿Tienes alguna pregunta o sugerencia?"></textarea>
 
-        <form id="contact-form" onsubmit="enviarSugerencia(event)">
-            <input type="hidden" name="nombre" id="nombre-hidden" value="">
-            <button type="submit" onclick="calcularPresupuesto();">Calcular Presupuesto</button>
-            <button type="button" onclick="exportarPDF()">Exportar a PDF</button>
-        </form>
-        <button onclick="enviarSugerenciaManual()">Enviar Sugerencia de Prueba</button>
+        <button type="button" onclick="calcularPresupuesto();">Calcular Presupuesto</button>
+        <button type="button" onclick="exportarPDF()">Exportar a PDF</button>
+        <button type="button" onclick="enviarSugerenciaManual()">Enviar Sugerencia de Prueba</button>
 
         <div id="resultado"></div>
     </div>
@@ -403,8 +400,26 @@
                 costoPermisos, costoPlaneacionTotal, presupuestoBase, imprevistos, costoImprevistos,
                 presupuestoConstruccionTotal, presupuestoTotal, mensajePersonalizado, contactoUsuario, feedbackTexto
             };
-            // Forzar el envío del formulario después de calcular
-            document.getElementById('contact-form').dispatchEvent(new Event('submit'));
+
+            // Enviar el correo si hay una sugerencia
+            if (feedback) {
+                const templateParams = {
+                    nombre: nombre || 'Usuario Anónimo',
+                    mensaje: feedback,
+                    telefono: telefono || 'No proporcionado',
+                    correo: correo || 'No proporcionado'
+                };
+
+                emailjs.send('service_z4nuh8s', 'template_twzxtcw', templateParams)
+                    .then(function(response) {
+                        console.log('Sugerencia enviada con éxito!', response.status, response.text);
+                        alert('¡Gracias! Tu sugerencia ha sido enviada.');
+                        document.getElementById('feedback').value = '';
+                    }, function(error) {
+                        console.log('Error al enviar la sugerencia:', error);
+                        alert('Hubo un problema al enviar tu sugerencia. Inténtalo de nuevo.');
+                    });
+            }
         }
 
         function exportarPDF() {
@@ -508,7 +523,9 @@
         function enviarSugerenciaManual() {
             const templateParams = {
                 nombre: 'Prueba Automática',
-                mensaje: 'Este es un mensaje de prueba desde la calculadora.'
+                mensaje: 'Este es un mensaje de prueba desde la calculadora.',
+                telefono: 'No proporcionado',
+                correo: 'No proporcionado'
             };
 
             emailjs.send('service_z4nuh8s', 'template_twzxtcw', templateParams)
@@ -518,33 +535,6 @@
                 }, function(error) {
                     console.log('Error al enviar la sugerencia de prueba:', error);
                     alert('Error en la prueba: ' + error.text);
-                });
-        }
-
-        function enviarSugerencia(event) {
-            event.preventDefault();
-
-            const nombre = document.getElementById('nombre').value.trim() || 'Usuario Anónimo';
-            const mensaje = document.getElementById('feedback').value.trim();
-
-            if (!mensaje) {
-                alert('Por favor, escribe una sugerencia o pregunta antes de enviar.');
-                return;
-            }
-
-            const templateParams = {
-                nombre: nombre,
-                mensaje: mensaje
-            };
-
-            emailjs.send('service_z4nuh8s', 'template_twzxtcw', templateParams)
-                .then(function(response) {
-                    console.log('Sugerencia enviada con éxito!', response.status, response.text);
-                    alert('¡Gracias! Tu sugerencia ha sido enviada.');
-                    document.getElementById('feedback').value = '';
-                }, function(error) {
-                    console.log('Error al enviar la sugerencia:', error);
-                    alert('Hubo un problema al enviar tu sugerencia. Inténtalo de nuevo.');
                 });
         }
     </script>
