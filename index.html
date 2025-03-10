@@ -263,7 +263,6 @@
 
         <button type="button" onclick="calcularPresupuesto();">Calcular Presupuesto</button>
         <button type="button" onclick="exportarPDF()">Exportar a PDF</button>
-        <button type="button" onclick="enviarSugerenciaManual()">Enviar Sugerencia de Prueba</button>
 
         <div id="resultado"></div>
     </div>
@@ -518,24 +517,6 @@
             doc.text('Calculadora de Presupuesto de Casa - 2025', 10, y);
 
             doc.save(`Presupuesto_${nombre}_${fechaActual.replace(/\s/g, '_')}.pdf`);
-        }
-
-        function enviarSugerenciaManual() {
-            const templateParams = {
-                nombre: 'Prueba Automática',
-                mensaje: 'Este es un mensaje de prueba desde la calculadora.',
-                telefono: 'No proporcionado',
-                correo: 'No proporcionado'
-            };
-
-            emailjs.send('service_z4nuh8s', 'template_twzxtcw', templateParams)
-                .then(function(response) {
-                    console.log('Sugerencia de prueba enviada con éxito!', response.status, response.text);
-                    alert('¡Sugerencia de prueba enviada!');
-                }, function(error) {
-                    console.log('Error al enviar la sugerencia de prueba:', error);
-                    alert('Error en la prueba: ' + error.text);
-                });
         }
     </script>
 </body>
