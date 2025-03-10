@@ -270,7 +270,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init('LKhuE79YLiXzlP415'); // Tu Public Key
+            console.log('Inicializando EmailJS con Public Key: JdnjCBdzrzNAvkcnW');
+            emailjs.init('JdnjCBdzrzNAvkcnW'); // Nueva Public Key
         })();
     </script>
     <script>
@@ -402,21 +403,25 @@
 
             // Enviar el correo si hay una sugerencia
             if (feedback) {
-                const templateParams = {
+                console.log('Enviando correo con parámetros:', {
                     nombre: nombre || 'Usuario Anónimo',
                     mensaje: feedback,
                     telefono: telefono || 'No proporcionado',
                     correo: correo || 'No proporcionado'
-                };
-
-                emailjs.send('service_z4nuh8s', 'template_twzxtcw', templateParams)
+                });
+                emailjs.send('service_z4nuh8s', 'template_twzxtcw', {
+                    nombre: nombre || 'Usuario Anónimo',
+                    mensaje: feedback,
+                    telefono: telefono || 'No proporcionado',
+                    correo: correo || 'No proporcionado'
+                })
                     .then(function(response) {
                         console.log('Sugerencia enviada con éxito!', response.status, response.text);
                         alert('¡Gracias! Tu sugerencia ha sido enviada.');
                         document.getElementById('feedback').value = '';
                     }, function(error) {
                         console.log('Error al enviar la sugerencia:', error);
-                        alert('Hubo un problema al enviar tu sugerencia. Inténtalo de nuevo.');
+                        alert('Hubo un problema al enviar tu sugerencia. Inténtalo de nuevo. Detalle: ' + error.text);
                     });
             }
         }
