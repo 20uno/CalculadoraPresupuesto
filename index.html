@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Presupuesto de Casa</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        p {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        select, input[type="text"], input[type="tel"], input[type="email"], input[type="range"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input[type="range"] {
+            cursor: pointer;
+        }
+        .slider-value {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: -10px;
+        }
+        .checkbox-container {
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #resultado {
+            margin-top: 30px;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            text-align: left;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        #resultado strong {
+            color: #e74c3c;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <!-- Calculadora de Presupuesto de Casa - Creado por Eduardo Enrique Mendoza Alcocer, 2025. Licencia: MIT -->
+    <h2>Calculadora de Presupuesto de Casa</h2>
+    <p>Personaliza tu casa seleccionando los espacios y el tipo de construcción (Región del Bajío, México).</p>
+
+    <div class="section">
+        <label for="nombre">Tu nombre:</label>
+        <input type="text" id="nombre" placeholder="Ej: Juan Pérez" required>
+
+        <label for="telefono">Teléfono (opcional):</label>
+        <input type="tel" id="telefono" placeholder="Ej: 477 123 4567">
+
+        <label for="correo">Correo electrónico (opcional):</label>
+        <input type="email" id="correo" placeholder="Ej: juan@example.com">
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="contactar" name="contactar">
+            <label for="contactar" style="display: inline; font-weight: normal;">¿Te interesa que te contactemos para más información?</label>
+        </div>
+
+        <label for="tipo_construccion">Tipo de construcción:</label>
+        <select id="tipo_construccion">
+            <option value="7000">Accesible (MXN$7,000/m²) - Materiales básicos, acabados sencillos, diseño eficiente.</option>
+            <option value="11000">Balanceado (MXN$11,000/m²) - Materiales de calidad media, acabados decorativos, diseño funcional.</option>
+            <option value="18000">Lujo (MXN$18,000/m²) - Materiales premium, acabados de alta gama, diseño personalizado.</option>
+        </select>
+        <p style="font-size: 14px; color: #7f8c8d;">Costos aproximados para el Bajío en 2025. Consulta datos oficiales en <a href="https://www.cmic.org.mx" target="_blank">CMIC</a>.</p>
+
+        <label for="recamaras">Número de recámaras:</label>
+        <select id="recamaras">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <label for="tamano_recamaras">Tamaño de recámaras:</label>
+        <select id="tamano_recamaras">
+            <option value="12.25">Pequeña (12.25 m²)</option>
+            <option value="16">Mediana (16 m²)</option>
+            <option value="20">Grande (20 m²)</option>
+        </select>
+
+        <label for="salas">Número de salas:</label>
+        <select id="salas">
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+        <label for="tamano_salas">Tamaño de sala:</label>
+        <select id="tamano_salas">
+            <option value="16">Pequeña (16 m²)</option>
+            <option value="20">Mediana (20 m²)</option>
+            <option value="25">Grande (25 m²)</option>
+        </select>
+
+        <label for="cocinas">Número de cocinas:</label>
+        <select id="cocinas">
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+        <label for="tamano_cocinas">Tamaño de cocina:</label>
+        <select id="tamano_cocinas">
+            <option value="9">Pequeña (9 m²)</option>
+            <option value="12">Mediana (12 m²)</option>
+            <option value="16">Grande (16 m²)</option>
+        </select>
+
+        <label for="banos">Número de baños:</label>
+        <select id="banos">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <label for="tamano_banos">Tamaño de baños:</label>
+        <select id="tamano_banos">
+            <option value="4">Pequeño (4 m²)</option>
+            <option value="6">Mediano (6 m²)</option>
+            <option value="9">Grande (9 m²)</option>
+        </select>
+
+        <label for="comedores">Número de comedores:</label>
+        <select id="comedores">
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+        <label for="tamano_comedores">Tamaño de comedor:</label>
+        <select id="tamano_comedores">
+            <option value="12">Pequeño (12 m²)</option>
+            <option value="16">Mediana (16 m²)</option>
+            <option value="20">Grande (20 m²)</option>
+        </select>
+
+        <label for="garajes">Número de garajes:</label>
+        <select id="garajes">
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+        <label for="tamano_garajes">Tamaño de garaje:</label>
+        <select id="tamano_garajes">
+            <option value="15">Pequeño (15 m²)</option>
+            <option value="20">Mediano (20 m²)</option>
+            <option value="30">Grande (30 m²)</option>
+        </select>
+
+        <label for="patios">Número de patios/jardines:</label>
+        <select id="patios">
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+        <label for="tamano_patios">Tamaño de patio/jardín:</label>
+        <select id="tamano_patios">
+            <option value="10">Pequeño (10 m²)</option>
+            <option value="20">Mediano (20 m²)</option>
+            <option value="40">Grande (40 m²)</option>
+        </select>
+
+        <label for="terrazas">Número de terrazas:</label>
+        <select id="terrazas">
+            <option value="0">0</option>
+            <option value="1">1</option>
+        </select>
+        <label for="tamano_terrazas">Tamaño de terraza:</label>
+        <select id="tamano_terrazas">
+            <option value="8">Pequeña (8 m²)</option>
+            <option value="12">Mediana (12 m²)</option>
+            <option value="20">Grande (20 m²)</option>
+        </select>
+
+        <label for="circulacion">Porcentaje de áreas de circulación (pasillos, escaleras, etc.):</label>
+        <input type="range" id="circulacion" min="10" max="20" value="15" oninput="actualizarPorcentaje(this.value, 'circulacion-valor')">
+        <div class="slider-value" id="circulacion-valor">15%</div>
+
+        <label for="imprevistos">Porcentaje de imprevistos:</label>
+        <input type="range" id="imprevistos" min="3" max="5" value="4" oninput="actualizarPorcentaje(this.value, 'imprevistos-valor')">
+        <div class="slider-value" id="imprevistos-valor">4%</div>
+
+        <label for="feedback">Sugerencias o preguntas (opcional):</label>
+        <textarea id="feedback" rows="4" placeholder="¿Qué te gustaría que incluyéramos en la app? ¿Tienes alguna duda o comentario?"></textarea>
+
+        <button onclick="calcularPresupuesto()">Calcular Presupuesto</button>
+        <button onclick="exportarPDF()">Exportar a PDF</button>
+    </div>
+
+    <div id="resultado"></div>
+
+    <script>
+        // Código ofuscado generado con javascript-obfuscator
+        var _0x5e5e=["umd","min","js","value","trim","nombre","Por favor, ingresa tu nombre.","innerHTML","resultado","telefono","correo","checked","contactar","tipo_construccion","parseFloat","recamaras","parseInt","tamano_recamaras","salas","tamano_salas","cocinas","tamano_cocinas","banos","tamano_banos","comedores","tamano_comedores","garajes","tamano_garajes","patios","tamano_patios","terrazas","tamano_terrazas","circulacion","imprevistos","toFixed","Accesible (MXN$7,000/m²)","Balanceado (MXN$11,000/m²)","Lujo (MXN$18,000/m²)","¡Hola, ","! Esperamos que esta información te ayude a tomar decisiones informadas. Construir una casa es una gran aventura, ¡y no estás sol@! Ánimo, ¡venga!","Datos de Contacto:\n","concat","- Teléfono: ","\n","- Correo: ","Usuario interesado en ser contactado:\nNombre: ","Teléfono: "," || 'No proporcionado'","Correo: ","Feedback: ","Por favor, contáctalo pronto.","log","Sugerencias o Preguntas:\n","<strong>Presupuesto Personalizado para ","</strong><br>","<em>Fecha: ","</em><br>","<br>","<strong>Tipo de Construcción: "," - Recámaras: "," m² ("," - Salas: "," - Cocinas: "," - Baños: "," - Comedores: "," - Garajes: "," - Patios/Jardines: "," - Terrazas: ","<strong>Área de Circulación (","%): ","</strong><br>","<em>Esto incluye pasillos, escaleras, vestíbulos, áreas de distribución, y otros espacios comunes.</em><br>","<strong>Área Total Estimada: ","<br><br>","<strong>Costos de Planeación:</strong><br>","- Estudios Técnicos (Mecánica de Suelos y Topografía): ","- Proyecto Ejecutivo (MXN$375/m²): ","- Permisos (MXN$80/m²): ","<strong>Total Costos de Planeación: ","<strong>Costos de Construcción:</strong><br>","- Presupuesto Base: ","- Imprevistos (","<strong>Total Costos de Construcción: ","<strong>Presupuesto Total (Planeación + Construcción): ","<em>","</em><br>","<p style=\"font-size: 14px; margin-top: 10px;\">Nota: Los costos son estimados para el Bajío en 2025. Verifica valores actuales en <a href=\"https://www.cmic.org.mx\" target=\"_blank\">CMIC</a>.</p>","<p style=\"font-size: 14px;\">¿Tienes más preguntas o sugerencias? Escríbelas en el formulario y te leeremos con atención.</p>","getElementById","toLocaleDateString","numeric","long","es-MX","replace","MXN$","$&,","\\d(?=(\\d{3})+\\.)","g","textContent","%","oninput"];const {jsPDF}=window[_0x5e5e[0]][_0x5e5e[1]][_0x5e5e[2]];function formatearMoneda(_0x3b8fx8){return _0x5e5e[40][_0x5e5e[41]](_0x3b8fx8[_0x5e5e[34]](2)[_0x5e5e[44]](/\d(?=(\d{3})+\.)/g,_0x5e5e[42]))}function actualizarPorcentaje(_0x3b8fx8,_0x3b8fx9){document[_0x5e5e[81]](_0x3b8fx9)[_0x5e5e[45]]=_0x3b8fx8+_0x5e5e[46]}function obtenerFechaActual(){const _0x3b8fxb=new Date();const _0x3b8fxc={day:_0x5e5e[42],month:_0x5e5e[43],year:_0x5e5e[42]};return _0x3b8fxb[_0x5e5e[82]](_0x5e5e[44],_0x3b8fxc)}function notificarAdministrador(_0x3b8fxe,_0x3b8fxf,_0x3b8fx10,_0x3b8fx11){console[_0x5e5e[49]](_0x5e5e[47]+_0x3b8fxe+_0x5e5e[9]+(_0x3b8fxf||_0x5e5e[48])+_0x5e5e[10]+(_0x3b8fx10||_0x5e5e[48])+_0x5e5e[11]+(_0x3b8fx11||_0x5e5e[48])+_0x5e5e[12])}function calcularPresupuesto(){const _0x3b8fxe=document[_0x5e5e[81]](_0x5e5e[5])[_0x5e5e[3]][_0x5e5e[4]]();if(!_0x3b8fxe){document[_0x5e5e[81]](_0x5e5e[8])[_0x5e5e[7]]=_0x5e5e[6];return}const _0x3b8fxf=document[_0x5e5e[81]](_0x5e5e[9])[_0x5e5e[3]][_0x5e5e[4]]();const _0x3b8fx10=document[_0x5e5e[81]](_0x5e5e[10])[_0x5e5e[3]][_0x5e5e[4]]();const _0x3b8fx13=document[_0x5e5e[81]](_0x5e5e[12])[_0x5e5e[11]];const _0x3b8fx11=document[_0x5e5e[81]](_0x5e5e[13])[_0x5e5e[3]][_0x5e5e[4]]();const _0x3b8fx14=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[15])[_0x5e5e[3]]);const _0x3b8fx15=_0x5e5e[16](document[_0x5e5e[81]](_0x5e5e[17])[_0x5e5e[3]]);const _0x3b8fx16=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[18])[_0x5e5e[3]]);const _0x3b8fx17=_0x5e5e[16](document[_0x5e5e[81]](_0x5e5e[19])[_0x5e5e[3]]);const _0x3b8fx18=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[20])[_0x5e5e[3]]);const _0x3b8fx19=_0x5e5e[16](document[_0x5e5e[81]](_0x5e5e[21])[_0x5e5e[3]]);const _0x3b8fx1a=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[22])[_0x5e5e[3]]);const _0x3b8fx1b=_0x5e5e[16](document[_0x5e5e[81]](_0x5e5e[23])[_0x5e5e[3]]);const _0x3b8fx1c=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[24])[_0x5e5e[3]]);const _0x3b8fx1d=_0x5e5e[16](document[_0x5e5e[81]](_0x5e5e[25])[_0x5e5e[3]]);const _0x3b8fx1e=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[26])[_0x5e5e[3]]);const _0x3b8fx1f=_0x5e5e[16](document[_0x5e5e[81]](_0x5e5e[27])[_0x5e5e[3]]);const _0x3b8fx20=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[28])[_0x5e5e[3]]);const _0x3b8fx21=_0x5e5e[16](document[_0x5e5e[81]](_0x5e5e[29])[_0x5e5e[3]]);const _0x3b8fx22=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[30])[_0x5e5e[3]]);const _0x3b8fx23=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[31])[_0x5e5e[3]])/100;const _0x3b8fx24=_0x5e5e[14](document[_0x5e5e[81]](_0x5e5e[32])[_0x5e5e[3]])/100;const _0x3b8fx25=obtenerFechaActual();const _0x3b8fx26=_0x3b8fx15*_0x3b8fx16;const _0x3b8fx27=_0x3b8fx17*_0x3b8fx18;const _0x3b8fx28=_0x3b8fx19*_0x3b8fx1a;const _0x3b8fx29=_0x3b8fx1b*_0x3b8fx1c;const _0x3b8fx2a=_0x3b8fx1d*_0x3b8fx1e;const _0x3b8fx2b=_0x3b8fx1f*_0x3b8fx20;const _0x3b8fx2c=_0x3b8fx21*_0x3b8fx22;const _0x3b8fx2d=_0x3b8fx23*(_0x3b8fx26+_0x3b8fx27+_0x3b8fx28+_0x3b8fx29+_0x3b8fx2a+_0x3b8fx2b+_0x3b8fx2c);const _0x3b8fx2e=_0x3b8fx26+_0x3b8fx27+_0x3b8fx28+_0x3b8fx29+_0x3b8fx2a+_0x3b8fx2b+_0x3b8fx2c+_0x3b8fx2d;const _0x3b8fx2f=25000;const _0x3b8fx30=_0x3b8fx2e*375;const _0x3b8fx31=_0x3b8fx2e*80;const _0x3b8fx32=_0x3b8fx2f+_0x3b8fx30+_0x3b8fx31;const _0x3b8fx33=_0x3b8fx2e*_0x3b8fx14;const _0x3b8fx34=_0x3b8fx33*_0x3b8fx24;const _0x3b8fx35=_0x3b8fx33+_0x3b8fx34;const _0x3b8fx36=_0x3b8fx35+_0x3b8fx32;let _0x3b8fx37=_0x5e5e[0];if(_0x3b8fx14===7000)_0x3b8fx37=_0x5e5e[35];else if(_0x3b8fx14===11000)_0x3b8fx37=_0x5e5e[36];else if(_0x3b8fx14===18000)_0x3b8fx37=_0x5e5e[37];const _0x3b8fx38=_0x5e5e[38]+_0x3b8fxe+_0x5e5e[39];let _0x3b8fx39=_0x5e5e[0];if(_0x3b8fx13&&(_0x3b8fxf||_0x3b8fx10)){_0x3b8fx39=_0x5e5e[40];if(_0x3b8fxf)_0x3b8fx39=_0x3b8fx39[_0x5e5e[41]](_0x5e5e[42]+_0x3b8fxf+_0x5e5e[43]);if(_0x3b8fx10)_0x3b8fx39=_0x3b8fx39[_0x5e5e[41]](_0x5e5e[44]+_0x3b8fx10+_0x5e5e[43]);notificarAdministrador(_0x3b8fxe,_0x3b8fxf,_0x3b8fx10,_0x3b8fx11)}let _0x3b8fx3a=_0x5e5e[0];if(_0x3b8fx11){_0x3b8fx3a=_0x5e5e[50]+_0x3b8fx11}const _0x3b8fx3b=_0x5e5e[51]+_0x3b8fxe+_0x5e5e[52]+_0x5e5e[53]+_0x3b8fx25+_0x5e5e[54]+(_0x3b8fx13&&_0x3b8fx39?_0x5e5e[55]+_0x3b8fx39:_0x5e5e[0])+_0x5e5e[55]+_0x5e5e[56]+_0x3b8fx37+_0x5e5e[52]+_0x5e5e[51]+_0x5e5e[0]+_0x3b8fx26+_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx15+_0x5e5e[58]+_0x5e5e[59]+_0x3b8fx27[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx17+_0x5e5e[58]+_0x5e5e[60]+_0x3b8fx28[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx19+_0x5e5e[58]+_0x5e5e[61]+_0x3b8fx29[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx1b+_0x5e5e[58]+_0x5e5e[62]+_0x3b8fx2a[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx1d+_0x5e5e[58]+_0x5e5e[63]+_0x3b8fx2b[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx1f+_0x5e5e[58]+_0x5e5e[64]+_0x3b8fx2c[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx21+_0x5e5e[58]+_0x5e5e[51]+_0x5e5e[65]+_0x3b8fx23*100)+_0x3b8fx2d[_0x5e5e[34]](2)+_0x5e5e[66]+_0x5e5e[67]+_0x5e5e[68]+_0x3b8fx2e[_0x5e5e[34]](2)+_0x5e5e[57]+_0x5e5e[69]+_0x5e5e[70]+_0x5e5e[71]+formatearMoneda(_0x3b8fx2f)+_0x5e5e[52]+_0x5e5e[72]+formatearMoneda(_0x3b8fx30)+_0x5e5e[52]+_0x5e5e[73]+formatearMoneda(_0x3b8fx31)+_0x5e5e[52]+_0x5e5e[74]+formatearMoneda(_0x3b8fx32)+_0x5e5e[52]+_0x5e5e[69]+_0x5e5e[75]+_0x5e5e[76]+formatearMoneda(_0x3b8fx33)+_0x5e5e[52]+_0x5e5e[77]+_0x3b8fx24*100)+_0x5e5e[46]+_0x5e5e[43]+formatearMoneda(_0x3b8fx34)+_0x5e5e[52]+_0x5e5e[78]+formatearMoneda(_0x3b8fx35)+_0x5e5e[52]+_0x5e5e[69]+_0x5e5e[79]+formatearMoneda(_0x3b8fx36)+_0x5e5e[52]+_0x5e5e[69]+_0x5e5e[80]+_0x3b8fx38+_0x5e5e[81]+(_0x3b8fx3a?_0x5e5e[55]+_0x3b8fx3a:_0x5e5e[0])+_0x5e5e[82]+_0x5e5e[83];document[_0x5e5e[81]](_0x5e5e[8])[_0x5e5e[7]]=_0x3b8fx3b;window[_0x5e5e[8]+"Data"]={nombre:_0x3b8fxe,telefono:_0x3b8fxf,correo:_0x3b8fx10,contactar:_0x3b8fx13,feedback:_0x3b8fx11,fechaActual:_0x3b8fx25,tipoTexto:_0x3b8fx37,metrosBase:_0x3b8fx26+_0x3b8fx27+_0x3b8fx28+_0x3b8fx29+_0x3b8fx2a+_0x3b8fx2b+_0x3b8fx2c,m2Recamaras:_0x3b8fx26,recamaras:_0x3b8fx15,m2Salas:_0x3b8fx27,salas:_0x3b8fx17,m2Cocinas:_0x3b8fx28,cocinas:_0x3b8fx19,m2Banos:_0x3b8fx29,banos:_0x3b8fx1b,m2Comedores:_0x3b8fx2a,comedores:_0x3b8fx1d,m2Garajes:_0x3b8fx2b,garajes:_0x3b8fx1f,m2Patios:_0x3b8fx2c,patios:_0x3b8fx21,m2Terrazas:_0x3b8fx2d,terrazas:_0x3b8fx23,porcentajeCirculacion:_0x3b8fx23,metrosCirculacion:_0x3b8fx2d,metrosTotales:_0x3b8fx2e,costoEstudios:_0x3b8fx2f,costoProyectoEjecutivo:_0x3b8fx30,costoPermisos:_0x3b8fx31,costoPlaneacionTotal:_0x3b8fx32,presupuestoBase:_0x3b8fx33,porcentajeImprevistos:_0x3b8fx24,costoImprevistos:_0x3b8fx34,presupuestoConstruccionTotal:_0x3b8fx35,presupuestoTotal:_0x3b8fx36,mensajePersonalizado:_0x3b8fx38,contactoUsuario:_0x3b8fx39,feedbackTexto:_0x3b8fx3a}}function exportarPDF(){if(!window[_0x5e5e[8]+"Data"]){alert(_0x5e5e[6]);return}const {nombre:_0x3b8fxe,telefono:_0x3b8fxf,correo:_0x3b8fx10,contactar:_0x3b8fx13,feedback:_0x3b8fx11,fechaActual:_0x3b8fx25,tipoTexto:_0x3b8fx37,metrosBase:_0x3b8fx26,m2Recamaras:_0x3b8fx27,recamaras:_0x3b8fx15,m2Salas:_0x3b8fx28,salas:_0x3b8fx17,m2Cocinas:_0x3b8fx29,cocinas:_0x3b8fx19,m2Banos:_0x3b8fx2a,banos:_0x3b8fx1b,m2Comedores:_0x3b8fx2b,comedores:_0x3b8fx1d,m2Garajes:_0x3b8fx2c,garajes:_0x3b8fx1f,m2Patios:_0x3b8fx2d,patios:_0x3b8fx21,m2Terrazas:_0x3b8fx2e,terrazas:_0x3b8fx23,porcentajeCirculacion:_0x3b8fx30,metrosCirculacion:_0x3b8fx31,metrosTotales:_0x3b8fx32,costoEstudios:_0x3b8fx33,costoProyectoEjecutivo:_0x3b8fx34,costoPermisos:_0x3b8fx35,costoPlaneacionTotal:_0x3b8fx36,presupuestoBase:_0x3b8fx38,porcentajeImprevistos:_0x3b8fx39,costoImprevistos:_0x3b8fx3a,presupuestoConstruccionTotal:_0x3b8fx3b,presupuestoTotal:_0x3b8fx3c,mensajePersonalizado:_0x3b8fx3d,contactoUsuario:_0x3b8fx3e,feedbackTexto:_0x3b8fx3f}=window[_0x5e5e[8]+"Data"];const _0x3b8fx40=new jsPDF();const _0x3b8fx41=10;let _0x3b8fx42=_0x3b8fx41;_0x3b8fx40.setFontSize(16);_0x3b8fx40.text(_0x5e5e[51]+_0x3b8fxe+_0x5e5e[52],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=10;_0x3b8fx40.setFontSize(12);_0x3b8fx40.text(_0x5e5e[53]+_0x3b8fx25+_0x5e5e[54],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=10;if(_0x3b8fx13&&_0x3b8fx3e){_0x3b8fx40.setFontSize(12);_0x3b8fx40.text(_0x5e5e[40],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=7;if(_0x3b8fxf)_0x3b8fx40.text(_0x5e5e[42]+_0x3b8fxf,_0x3b8fx41+5,_0x3b8fx42),_0x3b8fx42+=7;if(_0x3b8fx10)_0x3b8fx40.text(_0x5e5e[44]+_0x3b8fx10,_0x3b8fx41+5,_0x3b8fx42),_0x3b8fx42+=7;_0x3b8fx42+=5}_0x3b8fx40.setFontSize(14);_0x3b8fx40.text(_0x5e5e[56]+_0x3b8fx37,_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=10;_0x3b8fx40.setFontSize(12);_0x3b8fx40.text(_0x5e5e[51]+_0x5e5e[0]+_0x3b8fx26[_0x5e5e[34]](2)+_0x5e5e[57],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[59]+_0x3b8fx27[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx15+_0x5e5e[58],_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[60]+_0x3b8fx28[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx17+_0x5e5e[58],_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[61]+_0x3b8fx29[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx19+_0x5e5e[58],_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[62]+_0x3b8fx2a[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx1b+_0x5e5e[58],_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[63]+_0x3b8fx2b[_0x5e5e[34]](2)+_0x3b8fx1d+_0x5e5e[58],_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[64]+_0x3b8fx2c[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx1f+_0x5e5e[58],_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[65]+_0x3b8fx2d[_0x5e5e[34]](2)+_0x5e5e[57]+_0x3b8fx21+_0x5e5e[58],_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[66]+_0x3b8fx30*100+_0x3b8fx31[_0x5e5e[34]](2)+_0x5e5e[57],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.setFontSize(10);_0x3b8fx40.text(_0x5e5e[67],_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx40.setFontSize(12);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[68]+_0x3b8fx32[_0x5e5e[34]](2)+_0x5e5e[57],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=10;_0x3b8fx40.setFontSize(14);_0x3b8fx40.text(_0x5e5e[70],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.setFontSize(12);_0x3b8fx40.text(_0x5e5e[71]+formatearMoneda(_0x3b8fx33),_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[72]+formatearMoneda(_0x3b8fx34),_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[73]+formatearMoneda(_0x3b8fx35),_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[74]+formatearMoneda(_0x3b8fx36),_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=10;_0x3b8fx40.setFontSize(14);_0x3b8fx40.text(_0x5e5e[75],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.setFontSize(12);_0x3b8fx40.text(_0x5e5e[76]+formatearMoneda(_0x3b8fx38),_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[77]+_0x3b8fx39*100+_0x5e5e[46]+_0x5e5e[43]+formatearMoneda(_0x3b8fx3a),_0x3b8fx41+5,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[78]+formatearMoneda(_0x3b8fx3b),_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=10;_0x3b8fx40.setFontSize(14);_0x3b8fx40.text(_0x5e5e[79]+formatearMoneda(_0x3b8fx3c),_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=10;_0x3b8fx40.setFontSize(12);_0x3b8fx40.text(_0x3b8fx3d,_0x3b8fx41,_0x3b8fx42,{maxWidth:180});_0x3b8fx42+=20;if(_0x3b8fx3f){_0x3b8fx40.setFontSize(12);_0x3b8fx40.text(_0x5e5e[50],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x3b8fx11,_0x3b8fx41+5,_0x3b8fx42,{maxWidth:180});_0x3b8fx42+=20}_0x3b8fx40.setFontSize(10);_0x3b8fx40.text(_0x5e5e[82],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text(_0x5e5e[83],_0x3b8fx41,_0x3b8fx42);_0x3b8fx42+=7;_0x3b8fx40.text("Calculadora de Presupuesto de Casa - 2025",_0x3b8fx41,_0x3b8fx42);_0x3b8fx40.save(_0x5e5e[8]+_0x5e5e[0]+_0x3b8fxe+_0x5e5e[0]+_0x3b8fx25[_0x5e5e[44]](/\s/g,_0x5e5e[0])+".pdf")}
+    </script>
+</body>
+</html>
