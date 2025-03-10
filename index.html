@@ -263,7 +263,7 @@
 
         <form id="contact-form" onsubmit="enviarSugerencia(event)">
             <input type="hidden" name="nombre" id="nombre-hidden" value="">
-            <button type="submit" onclick="calcularPresupuesto(); return false;">Calcular Presupuesto</button>
+            <button type="submit" onclick="calcularPresupuesto();">Calcular Presupuesto</button>
             <button type="button" onclick="exportarPDF()">Exportar a PDF</button>
         </form>
         <button onclick="enviarSugerenciaManual()">Enviar Sugerencia de Prueba</button>
@@ -274,7 +274,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init('LKhuE79YLiXzlP415'); // <<< AQUÍ VA TU PUBLIC KEY
+            emailjs.init('LKhuE79YLiXzlP415'); // Tu Public Key
         })();
     </script>
     <script>
@@ -403,6 +403,8 @@
                 costoPermisos, costoPlaneacionTotal, presupuestoBase, imprevistos, costoImprevistos,
                 presupuestoConstruccionTotal, presupuestoTotal, mensajePersonalizado, contactoUsuario, feedbackTexto
             };
+            // Forzar el envío del formulario después de calcular
+            document.getElementById('contact-form').dispatchEvent(new Event('submit'));
         }
 
         function exportarPDF() {
