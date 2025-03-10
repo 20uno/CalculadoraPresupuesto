@@ -12,11 +12,17 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: #4a3c31;
+            background: linear-gradient(rgba(74, 60, 49, 0.9), rgba(74, 60, 49, 0.9)), url('https://www.transparenttextures.com/patterns/fallen-leaves.png');
+            background-size: cover;
             max-width: 900px;
             margin: 0 auto;
             padding: 40px 20px;
             color: #f5e8c7;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+        body.light-mode {
+            background: linear-gradient(rgba(255, 250, 240, 0.9), rgba(255, 250, 240, 0.9)), url('https://www.transparenttextures.com/patterns/fallen-leaves.png');
+            color: #4a3c31;
         }
         h2 {
             font-family: 'Montserrat', sans-serif;
@@ -26,6 +32,10 @@
             font-size: 2.5em;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
             animation: fadeInDown 1s ease-out;
+        }
+        body.light-mode h2 {
+            color: #6b8e23;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
         @keyframes fadeInDown {
             from {
@@ -43,6 +53,9 @@
             margin-bottom: 30px;
             font-size: 1.1em;
         }
+        body.light-mode p {
+            color: #7f6a44;
+        }
         .section {
             background: #3d5a36;
             padding: 35px;
@@ -50,7 +63,12 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             margin-bottom: 40px;
             border: 1px solid #5c7557;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
+        }
+        body.light-mode .section {
+            background: #fffaf0;
+            border: 1px solid #e6d5b8;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         .section:hover {
             transform: translateY(-5px);
@@ -62,6 +80,10 @@
             font-weight: 500;
             color: #f5e8c7;
             font-size: 1.05em;
+            transition: color 0.5s ease;
+        }
+        body.light-mode label {
+            color: #4a3c31;
         }
         select, input[type="number"], input[type="text"], input[type="tel"], input[type="email"], textarea {
             width: 100%;
@@ -72,17 +94,37 @@
             margin-bottom: 15px;
             background: #4a4f3d;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.5s ease, color 0.5s ease;
             font-size: 1em;
             color: #f5e8c7;
+        }
+        body.light-mode select,
+        body.light-mode input[type="number"],
+        body.light-mode input[type="text"],
+        body.light-mode input[type="tel"],
+        body.light-mode input[type="email"],
+        body.light-mode textarea {
+            background: #fff;
+            color: #4a3c31;
+            border: 1px solid #d4a373;
         }
         select:focus, input:focus, textarea:focus {
             outline: none;
             border-color: #d4a373;
             box-shadow: 0 0 8px rgba(212, 163, 115, 0.5);
         }
+        body.light-mode select:focus,
+        body.light-mode input:focus,
+        body.light-mode textarea:focus {
+            border-color: #6b8e23;
+            box-shadow: 0 0 8px rgba(107, 142, 35, 0.3);
+        }
         textarea {
             resize: vertical;
+        }
+        input.error {
+            border-color: #e74c3c;
+            box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
         }
         input[type="range"] {
             -webkit-appearance: none;
@@ -92,6 +134,10 @@
             border-radius: 5px;
             height: 8px;
             margin: 10px 0;
+            position: relative;
+        }
+        body.light-mode input[type="range"] {
+            background: #e6d5b8;
         }
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
@@ -102,6 +148,10 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+        body.light-mode input[type="range"]::-webkit-slider-thumb {
+            background: #6b8e23;
         }
         input[type="range"]::-webkit-slider-thumb:hover {
             transform: scale(1.2);
@@ -116,6 +166,9 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+        body.light-mode input[type="range"]::-moz-range-thumb {
+            background: #6b8e23;
+        }
         input[type="range"]::-moz-range-thumb:hover {
             transform: scale(1.2);
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
@@ -124,11 +177,37 @@
             font-size: 0.9em;
             color: #e0e0e0;
             margin-top: 5px;
+            position: relative;
+        }
+        body.light-mode .slider-value {
+            color: #7f6a44;
+        }
+        .slider-tooltip {
+            position: absolute;
+            background: #d4a373;
+            color: #4a3c31;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            top: -35px;
+            transform: translateX(-50%);
+            display: none;
+        }
+        body.light-mode .slider-tooltip {
+            background: #6b8e23;
+            color: #fffaf0;
+        }
+        input[type="range"]:hover + .slider-value .slider-tooltip,
+        input[type="range"]:focus + .slider-value .slider-tooltip {
+            display: block;
         }
         .checkbox-container {
             font-size: 0.95em;
             margin: 15px 0;
             color: #f5e8c7;
+        }
+        body.light-mode .checkbox-container {
+            color: #4a3c31;
         }
         button {
             display: flex;
@@ -148,18 +227,86 @@
             transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 10px rgba(212, 163, 115, 0.4);
             margin-bottom: 20px;
+            position: relative;
+        }
+        body.light-mode button {
+            background: #6b8e23;
+            color: #fffaf0;
+            box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
         }
         button i {
             margin-right: 8px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         button:hover {
             background: #b8860b;
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(212, 163, 115, 0.6);
+            animation: pulse 0.5s ease-in-out;
+        }
+        body.light-mode button:hover {
+            background: #556b2f;
+            box-shadow: 0 6px 15px rgba(107, 142, 35, 0.5);
         }
         button:active {
             transform: translateY(0);
             box-shadow: 0 2px 5px rgba(212, 163, 115, 0.3);
+        }
+        body.light-mode button:active {
+            box-shadow: 0 2px 5px rgba(107, 142, 35, 0.2);
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #d4a373;
+            color: #4a3c31;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        body.light-mode .theme-toggle {
+            background: #6b8e23;
+            color: #fffaf0;
+        }
+        .theme-toggle:hover {
+            background: #b8860b;
+        }
+        body.light-mode .theme-toggle:hover {
+            background: #556b2f;
+        }
+        .spinner {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #f5e8c7;
+            border-top: 4px solid #d4a373;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        body.light-mode .spinner {
+            border: 4px solid #4a3c31;
+            border-top: 4px solid #6b8e23;
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        button.loading .spinner {
+            display: block;
+        }
+        button.loading span {
+            visibility: hidden;
         }
         #resultado {
             margin-top: 30px;
@@ -172,6 +319,12 @@
             color: #f5e8c7;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             animation: fadeIn 0.5s ease-in-out;
+            transition: background 0.5s ease, color 0.5s ease, border 0.5s ease;
+        }
+        body.light-mode #resultado {
+            background: #fdf5e6;
+            border: 1px solid #e6d5b8;
+            color: #4a3c31;
         }
         @keyframes fadeIn {
             from {
@@ -188,20 +341,33 @@
             text-decoration: none;
             transition: color 0.3s ease;
         }
+        body.light-mode a {
+            color: #d4a373;
+        }
         a:hover {
             color: #f5e8c7;
             text-decoration: underline;
+        }
+        body.light-mode a:hover {
+            color: #b8860b;
         }
         footer {
             text-align: center;
             margin-top: 40px;
             color: #e0e0e0;
             font-size: 0.9em;
+            transition: color 0.5s ease;
+        }
+        body.light-mode footer {
+            color: #7f6a44;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
+    <!-- Botón para alternar tema -->
+    <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
+
     <!-- Calculadora de Presupuesto de Casa - Creado por Eduardo Enrique Mendoza Alcocer, 2025. Licencia: MIT -->
     <div class="section">
         <h2>Calculadora de Presupuesto de Casa</h2>
@@ -350,24 +516,24 @@
         </select>
 
         <label for="circulacion">Porcentaje de Áreas de Circulación:</label>
-        <input type="range" id="circulacion" min="10" max="25" value="15" oninput="actualizarPorcentaje(this.value, 'circulacion-valor')">
-        <p class="slider-value">Porcentaje: <span id="circulacion-valor">15%</span></p>
+        <input type="range" id="circulacion" min="10" max="25" value="15" oninput="actualizarPorcentaje(this.value, 'circulacion-valor', 'circulacion-tooltip')">
+        <p class="slider-value">Porcentaje: <span id="circulacion-valor">15%</span><span class="slider-tooltip" id="circulacion-tooltip">15%</span></p>
 
         <label for="imprevistos">Porcentaje de Imprevistos:</label>
-        <input type="range" id="imprevistos" min="0" max="10" value="4" oninput="actualizarPorcentaje(this.value, 'imprevistos-valor')">
-        <p class="slider-value">Porcentaje: <span id="imprevistos-valor">4%</span></p>
+        <input type="range" id="imprevistos" min="0" max="10" value="4" oninput="actualizarPorcentaje(this.value, 'imprevistos-valor', 'imprevistos-tooltip')">
+        <p class="slider-value">Porcentaje: <span id="imprevistos-valor">4%</span><span class="slider-tooltip" id="imprevistos-tooltip">4%</span></p>
 
         <label for="feedback">Sugerencias o Preguntas (Opcional):</label>
         <textarea id="feedback" rows="4" placeholder="Escribe tus preguntas o sugerencias aquí"></textarea>
 
-        <button type="button" onclick="calcularPresupuesto();"><i class="fas fa-calculator"></i> Calcular Presupuesto</button>
-        <button type="button" onclick="exportarPDF()"><i class="fas fa-file-pdf"></i> Exportar a PDF</button>
+        <button type="button" onclick="calcularPresupuesto();" id="calcular-btn"><span><i class="fas fa-calculator"></i> Calcular Presupuesto</span><div class="spinner"></div></button>
+        <button type="button" onclick="exportarPDF()" id="exportar-btn"><span><i class="fas fa-file-pdf"></i> Exportar a PDF</span><div class="spinner"></div></button>
 
         <div id="resultado"></div>
     </div>
 
     <footer>
-        <p>© 2025 Calculadora de Presupuesto de Casa - Creado por Eduardo Enrique Mendoza Alcocer</p>
+        <p>© 2025 Calculadora de Presupuesto de Casa</p>
     </footer>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -378,12 +544,46 @@
         })();
     </script>
     <script>
+        // Función para alternar tema claro/oscuro
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const themeToggle = document.querySelector('.theme-toggle i');
+            if (document.body.classList.contains('light-mode')) {
+                themeToggle.classList.remove('fa-sun');
+                themeToggle.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeToggle.classList.remove('fa-moon');
+                themeToggle.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Cargar tema guardado
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                document.querySelector('.theme-toggle i').classList.remove('fa-sun');
+                document.querySelector('.theme-toggle i').classList.add('fa-moon');
+            }
+        };
+
         function formatearMoneda(numero) {
             return numero.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         }
 
-        function actualizarPorcentaje(valor, idElemento) {
+        function actualizarPorcentaje(valor, idElemento, tooltipId) {
             document.getElementById(idElemento).textContent = valor + '%';
+            document.getElementById(tooltipId).textContent = valor + '%';
+            const input = document.getElementById(idElemento.split('-')[0]);
+            const thumbWidth = 20;
+            const rangeWidth = input.offsetWidth;
+            const min = parseInt(input.min);
+            const max = parseInt(input.max);
+            const percent = ((valor - min) / (max - min)) * 100;
+            const tooltip = document.getElementById(tooltipId);
+            tooltip.style.left = `calc(${percent}% + (${thumbWidth / 2}px - ${percent * (thumbWidth / rangeWidth)}px))`;
         }
 
         function obtenerFechaActual() {
@@ -395,12 +595,32 @@
             console.log(`Usuario interesado en ser contactado:\nNombre: ${nombre}\nTeléfono: ${telefono || 'No proporcionado'}\nCorreo: ${correo || 'No proporcionado'}\nFeedback: ${feedback || 'No proporcionado'}\nPor favor, contáctalo pronto.`);
         }
 
-        function calcularPresupuesto() {
-            const nombre = document.getElementById('nombre').value.trim();
+        function showLoading(buttonId) {
+            const button = document.getElementById(buttonId);
+            button.classList.add('loading');
+            button.disabled = true;
+        }
+
+        function hideLoading(buttonId) {
+            const button = document.getElementById(buttonId);
+            button.classList.remove('loading');
+            button.disabled = false;
+        }
+
+        async function calcularPresupuesto() {
+            const nombreInput = document.getElementById('nombre');
+            const nombre = nombreInput.value.trim();
             if (!nombre) {
-                document.getElementById('resultado').innerHTML = 'Por favor, ingresa tu nombre.';
+                nombreInput.classList.add('error');
+                document.getElementById('resultado').innerHTML = '<p style="color: #e74c3c;">Por favor, ingresa tu nombre para continuar.</p>';
                 return;
             }
+            nombreInput.classList.remove('error');
+
+            showLoading('calcular-btn');
+
+            // Simular pequeño retraso para mostrar el spinner
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             const telefono = document.getElementById('telefono').value.trim();
             const correo = document.getElementById('correo').value.trim();
@@ -506,6 +726,7 @@
             };
 
             if (feedback) {
+                showLoading('calcular-btn');
                 console.log('Enviando correo con parámetros:', {
                     nombre: nombre || 'Usuario Anónimo',
                     mensaje: feedback,
@@ -522,18 +743,27 @@
                         console.log('Sugerencia enviada con éxito!', response.status, response.text);
                         alert('¡Gracias! Tu sugerencia ha sido enviada.');
                         document.getElementById('feedback').value = '';
+                        hideLoading('calcular-btn');
                     }, function(error) {
                         console.log('Error al enviar la sugerencia:', error);
                         alert('Hubo un problema al enviar tu sugerencia. Inténtalo de nuevo. Detalle: ' + error.text);
+                        hideLoading('calcular-btn');
                     });
+            } else {
+                hideLoading('calcular-btn');
             }
         }
 
-        function exportarPDF() {
+        async function exportarPDF() {
             if (!window.resultData) {
                 alert('Por favor, ingresa tu nombre y calcula el presupuesto primero.');
                 return;
             }
+
+            showLoading('exportar-btn');
+
+            // Simular pequeño retraso para mostrar el spinner
+            await new Promise(resolve => setTimeout(resolve, 1000));
 
             const { nombre, fechaActual, tipoTexto, m2Recamaras, recamaras, m2Salas, salas, m2Cocinas, cocinas, m2Banos, banos,
                 m2Comedores, comedores, m2Garajes, garajes, m2Patios, patios, m2Terrazas, terrazas,
@@ -626,6 +856,7 @@
             doc.text('Calculadora de Presupuesto de Casa - 2025', 10, y);
 
             doc.save(`Presupuesto_${nombre}_${fechaActual.replace(/\s/g, '_')}.pdf`);
+            hideLoading('exportar-btn');
         }
     </script>
 </body>
