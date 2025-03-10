@@ -106,7 +106,7 @@
     <!-- Calculadora de Presupuesto de Casa - Creado por Eduardo Enrique Mendoza Alcocer, 2025. Licencia: MIT -->
     <div class="section">
         <h2>Calculadora de Presupuesto de Casa</h2>
-        <p>Estima el costo de construir una casa en el Bajío, 2025.</p>
+        <p>Estima el costo de tu casa en el Bajío, 2025.</p>
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" placeholder="Tu nombre">
 
@@ -266,6 +266,7 @@
             <button type="submit" onclick="calcularPresupuesto(); return false;">Calcular Presupuesto</button>
             <button type="button" onclick="exportarPDF()">Exportar a PDF</button>
         </form>
+        <button onclick="enviarSugerenciaManual()">Enviar Sugerencia de Prueba</button>
 
         <div id="resultado"></div>
     </div>
@@ -273,7 +274,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init('LKhuE79YLiXzlP415');
+            emailjs.init('LKhuE79YLiXzlP415'); // <<< AQUÍ VA TU PUBLIC KEY
         })();
     </script>
     <script>
@@ -500,6 +501,22 @@
             doc.text('Calculadora de Presupuesto de Casa - 2025', 10, y);
 
             doc.save(`Presupuesto_${nombre}_${fechaActual.replace(/\s/g, '_')}.pdf`);
+        }
+
+        function enviarSugerenciaManual() {
+            const templateParams = {
+                nombre: 'Prueba Automática',
+                mensaje: 'Este es un mensaje de prueba desde la calculadora.'
+            };
+
+            emailjs.send('service_z4nuh8s', 'template_twzxtcw', templateParams)
+                .then(function(response) {
+                    console.log('Sugerencia de prueba enviada con éxito!', response.status, response.text);
+                    alert('¡Sugerencia de prueba enviada!');
+                }, function(error) {
+                    console.log('Error al enviar la sugerencia de prueba:', error);
+                    alert('Error en la prueba: ' + error.text);
+                });
         }
 
         function enviarSugerencia(event) {
