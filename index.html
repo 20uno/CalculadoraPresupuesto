@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Font Awesome para íconos -->
+    <!-- Font Awesome (¡Sí funciona, carajo!) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -38,14 +38,8 @@
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         p {
             text-align: center;
@@ -57,6 +51,7 @@
             color: #7f6a44;
         }
         .section {
+            position: relative;
             background: #3d5a36;
             padding: 35px;
             border-radius: 15px;
@@ -134,7 +129,6 @@
             border-radius: 5px;
             height: 8px;
             margin: 10px 0;
-            position: relative;
         }
         body.light-mode input[type="range"] {
             background: #e6d5b8;
@@ -148,7 +142,6 @@
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
         }
         body.light-mode input[type="range"]::-webkit-slider-thumb {
             background: #6b8e23;
@@ -177,7 +170,6 @@
             font-size: 0.9em;
             color: #e0e0e0;
             margin-top: 5px;
-            position: relative;
         }
         body.light-mode .slider-value {
             color: #7f6a44;
@@ -227,7 +219,6 @@
             transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 10px rgba(212, 163, 115, 0.4);
             margin-bottom: 20px;
-            position: relative;
         }
         body.light-mode button {
             background: #6b8e23;
@@ -260,19 +251,33 @@
             box-shadow: 0 2px 5px rgba(107, 142, 35, 0.2);
         }
         .theme-toggle {
-            position: fixed;
+            position: absolute;
             top: 20px;
             right: 20px;
+            width: 40px;
+            height: 40px;
             background: #d4a373;
             color: #4a3c31;
             border: none;
-            padding: 10px;
             border-radius: 50%;
             cursor: pointer;
             transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
         }
         body.light-mode .theme-toggle {
             background: #6b8e23;
+            color: #fffaf0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+        .theme-toggle i {
+            font-size: 1.5em;
+            color: #4a3c31;
+        }
+        body.light-mode .theme-toggle i {
             color: #fffaf0;
         }
         .theme-toggle:hover {
@@ -327,14 +332,8 @@
             color: #4a3c31;
         }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         a {
             color: #d4a373;
@@ -365,11 +364,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <!-- Botón para alternar tema -->
-    <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
-
-    <!-- Calculadora de Presupuesto de Casa - Creado por Eduardo Enrique Mendoza Alcocer, 2025. Licencia: MIT -->
     <div class="section">
+        <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
         <h2>Calculadora de Presupuesto de Casa</h2>
         <p>Estima el costo de casa para zona Bajío, 2025.</p>
         <label for="nombre">Nombre:</label>
@@ -544,7 +540,6 @@
         })();
     </script>
     <script>
-        // Función para alternar tema claro/oscuro
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
             const themeToggle = document.querySelector('.theme-toggle i');
@@ -559,7 +554,6 @@
             }
         }
 
-        // Cargar tema guardado
         window.onload = function() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
@@ -592,7 +586,7 @@
         }
 
         function notificarAdministrador(nombre, telefono, correo, feedback) {
-            console.log(`Usuario interesado en ser contactado:\nNombre: ${nombre}\nTeléfono: ${telefono || 'No proporcionado'}\nCorreo: ${correo || 'No proporcionado'}\nFeedback: ${feedback || 'No proporcionado'}\nPor favor, contáctalo pronto.`);
+            console.log(`Usuario interesado:\nNombre: ${nombre}\nTeléfono: ${telefono || 'No dado'}\nCorreo: ${correo || 'No dado'}\nFeedback: ${feedback || 'No dado'}`);
         }
 
         function showLoading(buttonId) {
@@ -612,14 +606,12 @@
             const nombre = nombreInput.value.trim();
             if (!nombre) {
                 nombreInput.classList.add('error');
-                document.getElementById('resultado').innerHTML = '<p style="color: #e74c3c;">Por favor, ingresa tu nombre para continuar.</p>';
+                document.getElementById('resultado').innerHTML = '<p style="color: #e74c3c;">¡Escribe tu maldito nombre!</p>';
                 return;
             }
             nombreInput.classList.remove('error');
 
             showLoading('calcular-btn');
-
-            // Simular pequeño retraso para mostrar el spinner
             await new Promise(resolve => setTimeout(resolve, 1000));
 
             const telefono = document.getElementById('telefono').value.trim();
@@ -667,51 +659,41 @@
             const presupuestoConstruccionTotal = presupuestoBase + costoImprevistos;
             const presupuestoTotal = costoPlaneacionTotal + presupuestoConstruccionTotal;
 
-            let tipoTexto = '';
-            if (tipoConstruccion === 7000) tipoTexto = 'Accesible (MXN$7,000/m²)';
-            else if (tipoConstruccion === 11000) tipoTexto = 'Balanceado (MXN$11,000/m²)';
-            else if (tipoConstruccion === 18000) tipoTexto = 'Lujo (MXN$18,000/m²)';
+            let tipoTexto = tipoConstruccion === 7000 ? 'Accesible (MXN$7,000/m²)' : tipoConstruccion === 11000 ? 'Balanceado (MXN$11,000/m²)' : 'Lujo (MXN$18,000/m²)';
+            const mensajePersonalizado = `¡${nombre}, aquí tienes tu presupuesto! No te quedes con dudas, ¡pregunta lo que sea!`;
+            let contactoUsuario = contactar && (telefono || correo) ? `Datos de Contacto:\n${telefono ? '- Teléfono: ' + telefono + '\n' : ''}${correo ? '- Correo: ' + correo + '\n' : ''}` : '';
+            let feedbackTexto = feedback ? 'Feedback:\n' + feedback : '';
 
-            const mensajePersonalizado = `¡Hola, ${nombre}! Esperamos que esta información te ayude a tomar decisiones informadas. Construir una casa es una gran aventura, ¡y no estás sol@! Ánimo, ¡venga!`;
-            let contactoUsuario = '';
-            if (contactar && (telefono || correo)) {
-                contactoUsuario = 'Datos de Contacto:\n';
-                if (telefono) contactoUsuario += '- Teléfono: ' + telefono + '\n';
-                if (correo) contactoUsuario += '- Correo: ' + correo + '\n';
-                notificarAdministrador(nombre, telefono, correo, feedback);
-            }
-            let feedbackTexto = feedback ? 'Sugerencias o Preguntas:\n' + feedback : '';
+            if (contactoUsuario) notificarAdministrador(nombre, telefono, correo, feedback);
 
             const resultadoHTML = `
-                <strong>Presupuesto Personalizado para ${nombre}</strong><br>
+                <strong>Presupuesto para ${nombre}</strong><br>
                 <em>Fecha: ${fechaActual}</em><br><br>
-                <strong>Tipo de Construcción: ${tipoTexto}</strong><br>
+                <strong>Tipo: ${tipoTexto}</strong><br>
                 - Recámaras: ${m2Recamaras.toFixed(2)} m² (${recamaras})<br>
                 - Salas: ${m2Salas.toFixed(2)} m² (${salas})<br>
                 - Cocinas: ${m2Cocinas.toFixed(2)} m² (${cocinas})<br>
                 - Baños: ${m2Banos.toFixed(2)} m² (${banos})<br>
                 - Comedores: ${m2Comedores.toFixed(2)} m² (${comedores})<br>
                 - Garajes: ${m2Garajes.toFixed(2)} m² (${garajes})<br>
-                - Patios/Jardines: ${m2Patios.toFixed(2)} m² (${patios})<br>
+                - Patios: ${m2Patios.toFixed(2)} m² (${patios})<br>
                 - Terrazas: ${m2Terrazas.toFixed(2)} m² (${terrazas})<br>
-                <strong>Área de Circulación (${circulacion * 100}%): ${m2Circulacion.toFixed(2)}</strong><br>
-                <em>Esto incluye pasillos, escaleras, vestíbulos, áreas de distribución, y otros espacios comunes.</em><br>
-                <strong>Área Total Estimada: ${m2Totales.toFixed(2)}</strong><br><br>
-                <strong>Costos de Planeación:</strong><br>
-                - Estudios Técnicos (Mecánica de Suelos y Topografía): ${formatearMoneda(costoEstudios)}<br>
-                - Proyecto Ejecutivo (MXN$375/m²): ${formatearMoneda(costoProyectoEjecutivo)}<br>
-                - Permisos (MXN$80/m²): ${formatearMoneda(costoPermisos)}<br>
-                <strong>Total Costos de Planeación: ${formatearMoneda(costoPlaneacionTotal)}</strong><br><br>
-                <strong>Costos de Construcción:</strong><br>
-                - Presupuesto Base: ${formatearMoneda(presupuestoBase)}<br>
+                <strong>Circulación (${circulacion * 100}%): ${m2Circulacion.toFixed(2)} m²</strong><br>
+                <strong>Total m²: ${m2Totales.toFixed(2)}</strong><br><br>
+                <strong>Planeación:</strong><br>
+                - Estudios: ${formatearMoneda(costoEstudios)}<br>
+                - Proyecto: ${formatearMoneda(costoProyectoEjecutivo)}<br>
+                - Permisos: ${formatearMoneda(costoPermisos)}<br>
+                <strong>Total Planeación: ${formatearMoneda(costoPlaneacionTotal)}</strong><br><br>
+                <strong>Construcción:</strong><br>
+                - Base: ${formatearMoneda(presupuestoBase)}<br>
                 - Imprevistos (${imprevistos * 100}%): ${formatearMoneda(costoImprevistos)}<br>
-                <strong>Total Costos de Construcción: ${formatearMoneda(presupuestoConstruccionTotal)}</strong><br><br>
-                <strong>Presupuesto Total (Planeación + Construcción): ${formatearMoneda(presupuestoTotal)}</strong><br><br>
+                <strong>Total Construcción: ${formatearMoneda(presupuestoConstruccionTotal)}</strong><br><br>
+                <strong>Total General: ${formatearMoneda(presupuestoTotal)}</strong><br><br>
                 <em>${mensajePersonalizado}</em><br>
                 ${contactoUsuario ? '<br>' + contactoUsuario : ''}
                 ${feedbackTexto ? '<br>' + feedbackTexto : ''}
-                <p style="font-size: 14px; margin-top: 10px;">Nota: Los costos son estimados para el Bajío en 2025. Verifica valores actuales en <a href="https://www.cmic.org.mx" target="_blank">CMIC</a>.</p>
-                <p style="font-size: 14px;">Si tienes preguntas o sugerencias, compártelas en el formulario de arriba y te responderemos con gusto.</p>
+                <p style="font-size: 14px;">Nota: Estimado para Bajío 2025. Checa <a href="https://www.cmic.org.mx" target="_blank">CMIC</a>.</p>
             `;
 
             document.getElementById('resultado').innerHTML = resultadoHTML;
@@ -719,34 +701,25 @@
                 nombre, telefono, correo, contactar, feedback, fechaActual, tipoTexto,
                 m2Recamaras, recamaras, m2Salas, salas, m2Cocinas, cocinas, m2Banos, banos,
                 m2Comedores, comedores, m2Garajes, garajes, m2Patios, patios, m2Terrazas,
-                terrazas,
-                circulacion, m2Circulacion, m2Totales, costoEstudios, costoProyectoEjecutivo,
+                terrazas, circulacion, m2Circulacion, m2Totales, costoEstudios, costoProyectoEjecutivo,
                 costoPermisos, costoPlaneacionTotal, presupuestoBase, imprevistos, costoImprevistos,
                 presupuestoConstruccionTotal, presupuestoTotal, mensajePersonalizado, contactoUsuario, feedbackTexto
             };
 
             if (feedback) {
                 showLoading('calcular-btn');
-                console.log('Enviando correo con parámetros:', {
-                    nombre: nombre || 'Usuario Anónimo',
-                    mensaje: feedback,
-                    telefono: telefono || 'No proporcionado',
-                    correo: correo || 'No proporcionado'
-                });
                 emailjs.send('service_z4nuh8s', 'template_twzxtcw', {
-                    nombre: nombre || 'Usuario Anónimo',
+                    nombre: nombre || 'Anónimo',
                     mensaje: feedback,
-                    telefono: telefono || 'No proporcionado',
-                    correo: correo || 'No proporcionado'
+                    telefono: telefono || 'No dado',
+                    correo: correo || 'No dado'
                 })
-                    .then(function(response) {
-                        console.log('Sugerencia enviada con éxito!', response.status, response.text);
-                        alert('¡Gracias! Tu sugerencia ha sido enviada.');
+                    .then(() => {
+                        alert('Feedback enviado. ¡Gracias!');
                         document.getElementById('feedback').value = '';
                         hideLoading('calcular-btn');
-                    }, function(error) {
-                        console.log('Error al enviar la sugerencia:', error);
-                        alert('Hubo un problema al enviar tu sugerencia. Inténtalo de nuevo. Detalle: ' + error.text);
+                    }, (error) => {
+                        alert('Error enviando feedback: ' + error.text);
                         hideLoading('calcular-btn');
                     });
             } else {
@@ -756,14 +729,16 @@
 
         async function exportarPDF() {
             if (!window.resultData) {
-                alert('Por favor, ingresa tu nombre y calcula el presupuesto primero.');
+                alert('¡Calcula primero, carajo!');
                 return;
             }
 
             showLoading('exportar-btn');
-
-            // Simular pequeño retraso para mostrar el spinner
             await new Promise(resolve => setTimeout(resolve, 1000));
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            let y = 10;
 
             const { nombre, fechaActual, tipoTexto, m2Recamaras, recamaras, m2Salas, salas, m2Cocinas, cocinas, m2Banos, banos,
                 m2Comedores, comedores, m2Garajes, garajes, m2Patios, patios, m2Terrazas, terrazas,
@@ -772,87 +747,52 @@
                 presupuestoConstruccionTotal, presupuestoTotal, mensajePersonalizado,
                 contactoUsuario, feedbackTexto } = window.resultData;
 
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            let y = 10;
-
             doc.setFontSize(16);
-            doc.text(`Presupuesto Personalizado para ${nombre}`, 10, y);
+            doc.text(`Presupuesto para ${nombre}`, 10, y);
             y += 10;
             doc.setFontSize(12);
             doc.text(`Fecha: ${fechaActual}`, 10, y);
             y += 10;
-
             if (contactoUsuario) {
                 doc.text(contactoUsuario.replace(/\n/g, '\n   '), 15, y);
                 y += 10 + (contactoUsuario.match(/\n/g) || []).length * 7;
             }
-
             doc.setFontSize(14);
-            doc.text(`Tipo de Construcción: ${tipoTexto}`, 10, y);
+            doc.text(`Tipo: ${tipoTexto}`, 10, y);
             y += 10;
             doc.setFontSize(12);
-            doc.text(`- Recámaras: ${m2Recamaras.toFixed(2)} m² (${recamaras})`, 15, y);
-            y += 7;
-            doc.text(`- Salas: ${m2Salas.toFixed(2)} m² (${salas})`, 15, y);
-            y += 7;
-            doc.text(`- Cocinas: ${m2Cocinas.toFixed(2)} m² (${cocinas})`, 15, y);
-            y += 7;
-            doc.text(`- Baños: ${m2Banos.toFixed(2)} m² (${banos})`, 15, y);
-            y += 7;
-            doc.text(`- Comedores: ${m2Comedores.toFixed(2)} m² (${comedores})`, 15, y);
-            y += 7;
-            doc.text(`- Garajes: ${m2Garajes.toFixed(2)} m² (${garajes})`, 15, y);
-            y += 7;
-            doc.text(`- Patios/Jardines: ${m2Patios.toFixed(2)} m² (${patios})`, 15, y);
-            y += 7;
-            doc.text(`- Terrazas: ${m2Terrazas.toFixed(2)} m² (${terrazas})`, 15, y);
-            y += 7;
-            doc.text(`Área de Circulación (${circulacion * 100}%): ${m2Circulacion.toFixed(2)}`, 10, y);
-            y += 7;
-            doc.setFontSize(10);
-            doc.text('Esto incluye pasillos, escaleras, vestíbulos, áreas de distribución, y otros espacios comunes.', 15, y);
-            y += 7;
-            doc.setFontSize(12);
-            doc.text(`Área Total Estimada: ${m2Totales.toFixed(2)}`, 10, y);
-            y += 10;
+            doc.text(`- Recámaras: ${m2Recamaras.toFixed(2)} m² (${recamaras})`, 15, y); y += 7;
+            doc.text(`- Salas: ${m2Salas.toFixed(2)} m² (${salas})`, 15, y); y += 7;
+            doc.text(`- Cocinas: ${m2Cocinas.toFixed(2)} m² (${cocinas})`, 15, y); y += 7;
+            doc.text(`- Baños: ${m2Banos.toFixed(2)} m² (${banos})`, 15, y); y += 7;
+            doc.text(`- Comedores: ${m2Comedores.toFixed(2)} m² (${comedores})`, 15, y); y += 7;
+            doc.text(`- Garajes: ${m2Garajes.toFixed(2)} m² (${garajes})`, 15, y); y += 7;
+            doc.text(`- Patios: ${m2Patios.toFixed(2)} m² (${patios})`, 15, y); y += 7;
+            doc.text(`- Terrazas: ${m2Terrazas.toFixed(2)} m² (${terrazas})`, 15, y); y += 7;
+            doc.text(`Circulación (${circulacion * 100}%): ${m2Circulacion.toFixed(2)} m²`, 10, y); y += 7;
+            doc.text(`Total m²: ${m2Totales.toFixed(2)}`, 10, y); y += 10;
             doc.setFontSize(14);
-            doc.text('Costos de Planeación:', 10, y);
-            y += 7;
+            doc.text('Planeación:', 10, y); y += 7;
             doc.setFontSize(12);
-            doc.text(`- Estudios Técnicos (Mecánica de Suelos y Topografía): ${formatearMoneda(costoEstudios)}`, 15, y);
-            y += 7;
-            doc.text(`- Proyecto Ejecutivo (MXN$375/m²): ${formatearMoneda(costoProyectoEjecutivo)}`, 15, y);
-            y += 7;
-            doc.text(`- Permisos (MXN$80/m²): ${formatearMoneda(costoPermisos)}`, 15, y);
-            y += 7;
-            doc.text(`Total Costos de Planeación: ${formatearMoneda(costoPlaneacionTotal)}`, 10, y);
-            y += 10;
+            doc.text(`- Estudios: ${formatearMoneda(costoEstudios)}`, 15, y); y += 7;
+            doc.text(`- Proyecto: ${formatearMoneda(costoProyectoEjecutivo)}`, 15, y); y += 7;
+            doc.text(`- Permisos: ${formatearMoneda(costoPermisos)}`, 15, y); y += 7;
+            doc.text(`Total Planeación: ${formatearMoneda(costoPlaneacionTotal)}`, 10, y); y += 10;
             doc.setFontSize(14);
-            doc.text('Costos de Construcción:', 10, y);
-            y += 7;
+            doc.text('Construcción:', 10, y); y += 7;
             doc.setFontSize(12);
-            doc.text(`- Presupuesto Base: ${formatearMoneda(presupuestoBase)}`, 15, y);
-            y += 7;
-            doc.text(`- Imprevistos (${imprevistos * 100}%): ${formatearMoneda(costoImprevistos)}`, 15, y);
-            y += 7;
-            doc.text(`Total Costos de Construcción: ${formatearMoneda(presupuestoConstruccionTotal)}`, 10, y);
-            y += 10;
+            doc.text(`- Base: ${formatearMoneda(presupuestoBase)}`, 15, y); y += 7;
+            doc.text(`- Imprevistos (${imprevistos * 100}%): ${formatearMoneda(costoImprevistos)}`, 15, y); y += 7;
+            doc.text(`Total Construcción: ${formatearMoneda(presupuestoConstruccionTotal)}`, 10, y); y += 10;
             doc.setFontSize(14);
-            doc.text(`Presupuesto Total (Planeación + Construcción): ${formatearMoneda(presupuestoTotal)}`, 10, y);
-            y += 10;
+            doc.text(`Total General: ${formatearMoneda(presupuestoTotal)}`, 10, y); y += 10;
             doc.setFontSize(12);
-            doc.text(mensajePersonalizado, 10, y, { maxWidth: 180 });
-            y += 20;
+            doc.text(mensajePersonalizado, 10, y, { maxWidth: 180 }); y += 20;
             if (feedbackTexto) {
-                doc.text(feedbackTexto, 15, y, { maxWidth: 180 });
-                y += 20;
+                doc.text(feedbackTexto, 15, y, { maxWidth: 180 }); y += 20;
             }
             doc.setFontSize(10);
-            doc.text('Nota: Los costos son estimados para el Bajío en 2025. Verifica valores actuales en https://www.cmic.org.mx', 10, y);
-            y += 7;
-            doc.text('¿Tienes más preguntas o sugerencias? Escríbelas en el formulario de arriba y te leeremos con atención.', 10, y);
-            y += 7;
+            doc.text('Nota: Estimado Bajío 2025. Checa https://www.cmic.org.mx', 10, y); y += 7;
             doc.text('Calculadora de Presupuesto de Casa - 2025', 10, y);
 
             doc.save(`Presupuesto_${nombre}_${fechaActual.replace(/\s/g, '_')}.pdf`);
