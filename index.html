@@ -360,9 +360,6 @@
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
     <div class="section">
@@ -532,28 +529,8 @@
         <p>© 2025 Calculadora de Presupuesto de Casa</p>
     </footer>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            console.log('Inicializando EmailJS con Public Key: JdnjCBdzrzNAvkcnW');
-            emailjs.init('JdnjCBdzrzNAvkcnW');
-        })();
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-        // Configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBlV3fRGUcWx0wiGDbrceOdOHQv2H-B0Vc",
-            authDomain: "calculadoradecostosdeconstruc.firebaseapp.com",
-            projectId: "calculadoradecostosdeconstruc",
-            storageBucket: "calculadoradecostosdeconstruc.firebasestorage.app",
-            messagingSenderId: "899362658767",
-            appId: "1:899362658767:web:d76312abe4aa5c6f0b1aba"
-        };
-
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
             const themeToggle = document.querySelector('.theme-toggle i');
@@ -626,7 +603,7 @@
             const imprevistos = parseFloat(document.getElementById('imprevistos').value) / 100;
             const feedback = document.getElementById('feedback').value.trim() || 'No proporcionado';
             const fechaActual = obtenerFechaActual();
-            const calculoId = crypto.randomUUID(); // UUID único
+            const calculoId = Math.random().toString(36).substr(2, 9); // ID temporal simple
 
             const m2Recamaras = recamaras * tamanoRecamaras;
             const m2Salas = salas * tamanoSalas;
@@ -690,68 +667,6 @@
             `;
 
             document.getElementById('resultado').innerHTML = resultadoHTML;
-
-            const templateParams = {
-                calculo_id: calculoId,
-                fecha: fechaActual,
-                tipo_construccion: tipoTexto,
-                recamaras: recamaras,
-                m2_recamaras: m2Recamaras.toFixed(2),
-                salas: salas,
-                m2_salas: m2Salas.toFixed(2),
-                cocinas: cocinas,
-                m2_cocinas: m2Cocinas.toFixed(2),
-                banos: banos,
-                m2_banos: m2Banos.toFixed(2),
-                comedores: comedores,
-                m2_comedores: m2Comedores.toFixed(2),
-                garajes: garajes,
-                m2_garajes: m2Garajes.toFixed(2),
-                patios: patios,
-                m2_patios: m2Patios.toFixed(2),
-                terrazas: terrazas,
-                m2_terrazas: m2Terrazas.toFixed(2),
-                circulacion: (circulacion * 100).toFixed(0) + '%',
-                m2_circulacion: m2Circulacion.toFixed(2),
-                m2_totales: m2Totales.toFixed(2),
-                tamano_terreno: tamanoTerreno.toFixed(2),
-                costo_terreno_m2: formatearMoneda(costoTerrenoM2),
-                costo_terreno: formatearMoneda(costoTerreno),
-                costo_estudios: formatearMoneda(costoEstudios),
-                costo_proyecto_ejecutivo: formatearMoneda(costoProyectoEjecutivo),
-                costo_permisos: formatearMoneda(costoPermisos),
-                costo_planeacion_total: formatearMoneda(costoPlaneacionTotal),
-                presupuesto_base: formatearMoneda(presupuestoBase),
-                imprevistos: (imprevistos * 100).toFixed(0) + '%',
-                costo_imprevistos: formatearMoneda(costoImprevistos),
-                presupuesto_construccion_total: formatearMoneda(presupuestoConstruccionTotal),
-                presupuesto_total_sin_terreno: formatearMoneda(presupuestoTotalSinTerreno),
-                presupuesto_total_con_terreno: formatearMoneda(presupuestoTotalConTerreno),
-                costo_por_m2: formatearMoneda(costoPorM2),
-                feedback: feedback
-            };
-
-            // Guardar en Firebase
-            try {
-                await db.collection('calculos').doc(calculoId).set(templateParams);
-                console.log('Cálculo guardado en Firebase con ID:', calculoId);
-            } catch (error) {
-                console.error('Error al guardar en Firebase:', error);
-                alert('Hubo un problema al guardar el cálculo en la base de datos.');
-            }
-
-            // Enviar correo con EmailJS
-            emailjs.send('service_z4nuh8s', 'template_twzxtcw', templateParams)
-                .then(function(response) {
-                    console.log('Correo enviado con éxito!', response.status, response.text);
-                    if (feedback !== 'No proporcionado') {
-                        alert('¡Gracias! Tu feedback ha sido enviado.');
-                        document.getElementById('feedback').value = '';
-                    }
-                }, function(error) {
-                    console.log('Error al enviar el correo:', error);
-                    alert('Hubo un problema al enviar el correo. El cálculo se guardó localmente.');
-                });
 
             hideLoading('calcular-btn');
         }
