@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Presupuesto de Casa</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <!-- Fuentes de Google -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -498,6 +496,16 @@
             <option value="30">30 m²</option>
         </select>
 
+        <label for="tamano_terreno">Tamaño del Terreno (m²):</label>
+        <input type="number" id="tamano_terreno" min="50" value="200" placeholder="Ingresa el tamaño en m²">
+
+        <label for="costo_terreno_m2">Costo por m² del Terreno (MXN):</label>
+        <select id="costo_terreno_m2">
+            <option value="2000">Zona Rural ($2,000/m²)</option>
+            <option value="5000" selected>Zona Urbana ($5,000/m²)</option>
+            <option value="10000">Zona Premium ($10,000/m²)</option>
+        </select>
+
         <label for="circulacion">Porcentaje de Áreas de Circulación:</label>
         <input type="range" id="circulacion" min="10" max="25" value="15" oninput="actualizarPorcentaje(this.value, 'circulacion-valor', 'circulacion-tooltip')">
         <p class="slider-value">Porcentaje: <span id="circulacion-valor">15%</span><span class="slider-tooltip" id="circulacion-tooltip">15%</span></p>
@@ -593,6 +601,8 @@
             const tamanoPatios = parseFloat(document.getElementById('tamano_patios').value);
             const terrazas = parseInt(document.getElementById('terrazas').value);
             const tamanoTerrazas = parseFloat(document.getElementById('tamano_terrazas').value);
+            const tamanoTerreno = parseFloat(document.getElementById('tamano_terreno').value) || 0;
+            const costoTerrenoM2 = parseFloat(document.getElementById('costo_terreno_m2').value);
             const circulacion = parseFloat(document.getElementById('circulacion').value) / 100;
             const imprevistos = parseFloat(document.getElementById('imprevistos').value) / 100;
             const feedback = document.getElementById('feedback').value.trim() || 'No proporcionado';
@@ -608,6 +618,7 @@
             const m2Terrazas = terrazas * tamanoTerrazas;
             const m2Circulacion = circulacion * (m2Recamaras + m2Salas + m2Cocinas + m2Banos + m2Comedores + m2Garajes + m2Patios + m2Terrazas);
             const m2Totales = m2Recamaras + m2Salas + m2Cocinas + m2Banos + m2Comedores + m2Garajes + m2Patios + m2Terrazas + m2Circulacion;
+            const costoTerreno = tamanoTerreno * costoTerrenoM2;
 
             const costoEstudios = 25000;
             const costoProyectoEjecutivo = m2Totales * 375;
@@ -616,12 +627,18 @@
             const presupuestoBase = m2Totales * tipoConstruccion;
             const costoImprevistos = presupuestoBase * imprevistos;
             const presupuestoConstruccionTotal = presupuestoBase + costoImprevistos;
-            const presupuestoTotal = costoPlaneacionTotal + presupuestoConstruccionTotal;
+            const presupuestoTotalSinTerreno = costoPlaneacionTotal + presupuestoConstruccionTotal;
+            const presupuestoTotalConTerreno = presupuestoTotalSinTerreno + costoTerreno;
 
             let tipoTexto = '';
             if (tipoConstruccion === 7000) tipoTexto = 'Accesible (MXN$7,000/m²)';
             else if (tipoConstruccion === 11000) tipoTexto = 'Balanceado (MXN$11,000/m²)';
             else if (tipoConstruccion === 18000) tipoTexto = 'Lujo (MXN$18,000/m²)';
+
+            let terrenoTexto = '';
+            if (costoTerrenoM2 === 2000) terrenoTexto = 'Zona Rural (MXN$2,000/m²)';
+            else if (costoTerrenoM2 === 5000) terrenoTexto = 'Zona Urbana (MXN$5,000/m²)';
+            else if (costoTerrenoM2 === 10000) terrenoTexto = 'Zona Premium (MXN$10,000/m²)';
 
             const resultadoHTML = `
                 <strong>Presupuesto Anónimo</strong><br>
@@ -636,7 +653,11 @@
                 - Patios/Jardines: ${m2Patios.toFixed(2)} m² (${patios})<br>
                 - Terrazas: ${m2Terrazas.toFixed(2)} m² (${terrazas})<br>
                 <strong>Área de Circulación (${circulacion * 100}%): ${m2Circulacion.toFixed(2)}</strong><br>
-                <strong>Área Total Estimada: ${m2Totales.toFixed(2)}</strong><br><br>
+                <strong>Área Total Construida Estimada: ${m2Totales.toFixed(2)} m²</strong><br><br>
+                <strong>Costo del Terreno:</strong><br>
+                - Tamaño del Terreno: ${tamanoTerreno.toFixed(2)} m²<br>
+                - Costo por m²: ${terrenoTexto}<br>
+                <strong>Total Costo del Terreno: ${formatearMoneda(costoTerreno)}</strong><br><br>
                 <strong>Costos de Planeación:</strong><br>
                 - Estudios Técnicos: ${formatearMoneda(costoEstudios)}<br>
                 - Proyecto Ejecutivo: ${formatearMoneda(costoProyectoEjecutivo)}<br>
@@ -646,7 +667,8 @@
                 - Presupuesto Base: ${formatearMoneda(presupuestoBase)}<br>
                 - Imprevistos (${imprevistos * 100}%): ${formatearMoneda(costoImprevistos)}<br>
                 <strong>Total Costos de Construcción: ${formatearMoneda(presupuestoConstruccionTotal)}</strong><br><br>
-                <strong>Presupuesto Total: ${formatearMoneda(presupuestoTotal)}</strong><br><br>
+                <strong>Presupuesto Total (sin terreno): ${formatearMoneda(presupuestoTotalSinTerreno)}</strong><br>
+                <strong>Presupuesto Total (con terreno): ${formatearMoneda(presupuestoTotalConTerreno)}</strong><br><br>
                 <p style="font-size: 14px;">Nota: Los costos son estimados para el Bajío en 2025. Verifica valores actuales en <a href="https://www.cmic.org.mx" target="_blank">CMIC</a>.</p>
             `;
 
@@ -674,6 +696,9 @@
                 circulacion: (circulacion * 100).toFixed(0) + '%',
                 m2_circulacion: m2Circulacion.toFixed(2),
                 m2_totales: m2Totales.toFixed(2),
+                tamano_terreno: tamanoTerreno.toFixed(2),
+                costo_terreno_m2: terrenoTexto,
+                costo_terreno: formatearMoneda(costoTerreno),
                 costo_estudios: formatearMoneda(costoEstudios),
                 costo_proyecto_ejecutivo: formatearMoneda(costoProyectoEjecutivo),
                 costo_permisos: formatearMoneda(costoPermisos),
@@ -682,7 +707,8 @@
                 imprevistos: (imprevistos * 100).toFixed(0) + '%',
                 costo_imprevistos: formatearMoneda(costoImprevistos),
                 presupuesto_construccion_total: formatearMoneda(presupuestoConstruccionTotal),
-                presupuesto_total: formatearMoneda(presupuestoTotal),
+                presupuesto_total_sin_terreno: formatearMoneda(presupuestoTotalSinTerreno),
+                presupuesto_total_con_terreno: formatearMoneda(presupuestoTotalConTerreno),
                 feedback: feedback
             };
 
