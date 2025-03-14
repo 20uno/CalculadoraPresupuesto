@@ -631,6 +631,7 @@
             const presupuestoConstruccionTotal = presupuestoBase + costoImprevistos;
             const presupuestoTotalSinTerreno = costoPlaneacionTotal + presupuestoConstruccionTotal;
             const presupuestoTotalConTerreno = presupuestoTotalSinTerreno + costoTerreno;
+            const costoPorM2 = m2Totales > 0 ? presupuestoTotalConTerreno / m2Totales : 0;
 
             let tipoTexto = '';
             if (tipoConstruccion === 7000) tipoTexto = 'Accesible (MXN$7,000/m²)';
@@ -665,7 +666,8 @@
                 - Imprevistos (${imprevistos * 100}%): ${formatearMoneda(costoImprevistos)}<br>
                 <strong>Total Costos de Construcción: ${formatearMoneda(presupuestoConstruccionTotal)}</strong><br><br>
                 <strong>Presupuesto Total (sin terreno): ${formatearMoneda(presupuestoTotalSinTerreno)}</strong><br>
-                <strong>Presupuesto Total (con terreno): ${formatearMoneda(presupuestoTotalConTerreno)}</strong><br><br>
+                <strong>Presupuesto Total (con terreno): ${formatearMoneda(presupuestoTotalConTerreno)}</strong><br>
+                <strong>Costo por m² Total: ${formatearMoneda(costoPorM2)} MXN/m²</strong><br><br>
                 <p style="font-size: 14px;">Nota: Los costos son estimados para el Bajío en 2025. Verifica valores actuales en <a href="https://www.cmic.org.mx" target="_blank">CMIC</a>.</p>
             `;
 
@@ -706,6 +708,7 @@
                 presupuesto_construccion_total: formatearMoneda(presupuestoConstruccionTotal),
                 presupuesto_total_sin_terreno: formatearMoneda(presupuestoTotalSinTerreno),
                 presupuesto_total_con_terreno: formatearMoneda(presupuestoTotalConTerreno),
+                costo_por_m2: formatearMoneda(costoPorM2),
                 feedback: feedback
             };
 
