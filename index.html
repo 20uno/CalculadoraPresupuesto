@@ -361,8 +361,8 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
     <div class="section">
@@ -522,7 +522,7 @@
         <label for="feedback">Sugerencias o Preguntas (Opcional):</label>
         <textarea id="feedback" rows="4" placeholder="Escribe tus preguntas o sugerencias aquí"></textarea>
 
-        <button type="button" onclick="calcularPresupuesto();" id="calcular-btn"><span><i class="fas fa-calculator"></i> Calcular Presupuesto</span><div class="spinner"></div></button>
+        <button type="button" onclick="calcularPresupuesto()" id="calcular-btn"><span><i class="fas fa-calculator"></i> Calcular Presupuesto</span><div class="spinner"></div></button>
         <button type="button" onclick="exportarPDF()" id="exportar-btn"><span><i class="fas fa-file-pdf"></i> Exportar a PDF</span><div class="spinner"></div></button>
 
         <div id="resultado"></div>
@@ -712,7 +712,7 @@
                 terrazas: terrazas,
                 m2_terrazas: m2Terrazas.toFixed(2),
                 circulacion: (circulacion * 100).toFixed(0) + '%',
-                m2_circulacion: m2Circulacion.toFixed(Firebase
+                m2_circulacion: m2Circulacion.toFixed(2),
                 m2_totales: m2Totales.toFixed(2),
                 tamano_terreno: tamanoTerreno.toFixed(2),
                 costo_terreno_m2: formatearMoneda(costoTerrenoM2),
