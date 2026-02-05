@@ -1,199 +1,183 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Presupuesto de Casa</title>
+  <meta charset="UTF-8">
+  <title>Estimador de Costos de Construcción</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
 
-<style>
-/* === ESTILOS ORIGINALES SIN CAMBIOS === */
-body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(rgba(74,60,49,.9), rgba(74,60,49,.9)),
-    url('https://www.transparenttextures.com/patterns/fallen-leaves.png');
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    color: #f5e8c7;
-}
-body.light-mode {
-    background: linear-gradient(rgba(255,250,240,.9), rgba(255,250,240,.9)),
-    url('https://www.transparenttextures.com/patterns/fallen-leaves.png');
-    color: #4a3c31;
-}
-h2 {
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    color: #d4a373;
-    font-size: 2.5em;
-}
-.section {
-    background: #3d5a36;
-    padding: 35px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.4);
-}
-body.light-mode .section {
-    background: #fffaf0;
-}
-label {
-    display: block;
-    margin-top: 20px;
-}
-select, input, textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    margin-top: 6px;
-}
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 20px;
-    border-radius: 10px;
-    background: #d4a373;
-    border: none;
-    cursor: pointer;
-}
-#resultado {
-    margin-top: 30px;
-    padding: 25px;
-    background: #5c7557;
-    border-radius: 10px;
-}
-footer {
-    text-align: center;
-    margin-top: 30px;
-    font-size: .9em;
-}
-</style>
+    h1, h2 {
+      margin-top: 0;
+    }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      background: #2c7be5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1a5fb4;
+    }
+
+    .result {
+      margin-top: 30px;
+      background: #fafafa;
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #555;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
 <body>
+<div class="container">
 
-<div class="section">
-<button onclick="toggleTheme()">🌗</button>
+  <h1>Estimador de Costos de Construcción</h1>
 
-<h2>Calculadora de Presupuesto de Casa</h2>
-<p>Estimación orientativa de construcción residencial 2026.</p>
+  <h2>Áreas del Proyecto (m²)</h2>
 
-<label>Tipo de Construcción</label>
-<select id="tipo_construccion">
-  <option value="13000">Accesible ($13,000/m²)</option>
-  <option value="18000" selected>Balanceado ($18,000/m²)</option>
-  <option value="24000">Residencial ($24,000/m²)</option>
-</select>
+  <label>Área Habitable</label>
+  <input type="number" id="areaHabitacional" value="0">
 
-<label>Recámaras</label>
-<select id="recamaras"><option>1</option><option selected>2</option><option>3</option><option>4</option></select>
-<label>Tamaño recámara (m²)</label>
-<select id="tamano_recamaras"><option>12</option><option selected>15</option><option>20</option></select>
+  <label>Área de Circulación (pasillos, escaleras)</label>
+  <input type="number" id="areaCirculacion" value="0">
 
-<label>Salas</label>
-<select id="salas"><option selected>1</option><option>2</option></select>
-<label>Tamaño sala (m²)</label>
-<select id="tamano_salas"><option>20</option><option selected>25</option><option>30</option></select>
+  <label>Terrazas (no cuentan como circulación)</label>
+  <input type="number" id="areaTerrazas" value="0">
 
-<label>Cocinas</label>
-<select id="cocinas"><option selected>1</option><option>2</option></select>
-<label>Tamaño cocina (m²)</label>
-<select id="tamano_cocinas"><option>10</option><option selected>12</option><option>15</option></select>
+  <label>Patios</label>
+  <input type="number" id="areaPatios" value="0">
 
-<label>Baños</label>
-<select id="banos"><option>1</option><option selected>2</option><option>3</option></select>
-<label>Tamaño baño (m²)</label>
-<select id="tamano_banos"><option>4</option><option selected>6</option><option>8</option></select>
+  <label>Jardines</label>
+  <input type="number" id="areaJardines" value="0">
 
-<label>Comedores</label>
-<select id="comedores"><option selected>1</option><option>2</option></select>
-<label>Tamaño comedor (m²)</label>
-<select id="tamano_comedores"><option>12</option><option selected>15</option><option>20</option></select>
+  <h2>Parámetros</h2>
 
-<label>Garajes</label>
-<select id="garajes"><option>0</option><option selected>1</option><option>2</option></select>
-<label>Tamaño garaje (m²)</label>
-<select id="tamano_garajes"><option>15</option><option selected>20</option><option>30</option></select>
+  <label>Nivel de Construcción</label>
+  <select id="nivel">
+    <option value="13000">Básico – $13,000 / m²</option>
+    <option value="18000">Medio – $18,000 / m²</option>
+    <option value="24000">Alto – $24,000 / m²</option>
+  </select>
 
-<label>Patios / Jardines</label>
-<select id="patios"><option>0</option><option selected>1</option><option>2</option></select>
-<label>Tamaño patio (m²)</label>
-<select id="tamano_patios"><option>20</option><option selected>30</option><option>40</option></select>
+  <label>Factor Patios y Jardines</label>
+  <input type="number" id="factorExterior" value="0.35" step="0.05">
 
-<label>Terrazas</label>
-<select id="terrazas"><option selected>0</option><option>1</option><option>2</option></select>
-<label>Tamaño terraza (m²)</label>
-<select id="tamano_terrazas"><option>10</option><option selected>15</option><option>20</option></select>
+  <label>Planeación y Trámites (%)</label>
+  <input type="number" id="factorPlaneacion" value="8">
 
-<label>% Circulación</label>
-<input type="number" id="circulacion" value="15">
+  <label>Valor del Terreno (referencial)</label>
+  <input type="number" id="valorTerreno" value="0">
 
-<label>% Imprevistos</label>
-<input type="number" id="imprevistos" value="4">
+  <button onclick="calcular()">Calcular Estimación</button>
 
-<label>Tamaño del terreno (m²)</label>
-<input type="number" id="tamano_terreno" value="200">
+  <div class="result" id="resultado"></div>
 
-<label>Costo terreno por m²</label>
-<input type="number" id="costo_terreno_m2" value="5000">
+  <div class="footer">
+    <strong>Nota importante:</strong>
+    <div class="note">
+      Esta herramienta es una estimación paramétrica.  
+      El valor del terreno se muestra de forma informativa y no se suma al costo de obra.  
+      Patios y terrazas no se consideran áreas de circulación.  
+      Los costos reales pueden variar según proyecto ejecutivo, mercado y condiciones locales.
+    </div>
+  </div>
 
-<button onclick="calcularPresupuesto()">Calcular</button>
-
-<div id="resultado"></div>
 </div>
 
-<footer>
-© 2026 Calculadora de Presupuesto de Casa · Estimación referencial
-</footer>
-
 <script>
-function toggleTheme(){
-  document.body.classList.toggle('light-mode');
-}
+function calcular() {
 
-function formatear(n){
-  return n.toLocaleString('es-MX',{minimumFractionDigits:2});
-}
+  const areaHabitacional = Number(document.getElementById("areaHabitacional").value);
+  const areaCirculacion = Number(document.getElementById("areaCirculacion").value);
+  const areaTerrazas = Number(document.getElementById("areaTerrazas").value);
+  const areaPatios = Number(document.getElementById("areaPatios").value);
+  const areaJardines = Number(document.getElementById("areaJardines").value);
 
-function calcularPresupuesto(){
+  const costoM2 = Number(document.getElementById("nivel").value);
+  const factorExterior = Number(document.getElementById("factorExterior").value);
+  const factorPlaneacion = Number(document.getElementById("factorPlaneacion").value) / 100;
+  const valorTerreno = Number(document.getElementById("valorTerreno").value);
 
-const tipo = +tipo_construccion.value;
+  // Áreas consideradas
+  const areaConstruida = areaHabitacional + areaCirculacion + areaTerrazas;
+  const areaExteriorEquivalente = (areaPatios + areaJardines) * factorExterior;
 
-const m2Interior =
-(+recamaras.value * +tamano_recamaras.value) +
-(+salas.value * +tamano_salas.value) +
-(+cocinas.value * +tamano_cocinas.value) +
-(+banos.value * +tamano_banos.value) +
-(+comedores.value * +tamano_comedores.value) +
-(+garajes.value * +tamano_garajes.value);
+  // Costos
+  const costoConstruccion = areaConstruida * costoM2;
+  const costoExteriores = areaExteriorEquivalente * costoM2;
+  const subtotalObra = costoConstruccion + costoExteriores;
+  const costoPlaneacion = subtotalObra * factorPlaneacion;
+  const totalObra = subtotalObra + costoPlaneacion;
 
-const m2Circulacion = m2Interior * (+circulacion.value / 100);
-const m2Patios = (+patios.value * +tamano_patios.value) * 0.30;
-const m2Terrazas = (+terrazas.value * +tamano_terrazas.value) * 0.50;
+  document.getElementById("resultado").innerHTML = `
+    <h2>Resultado de la Estimación</h2>
 
-const m2Equivalentes = m2Interior + m2Circulacion + m2Patios + m2Terrazas;
+    <strong>Desglose de Áreas</strong><br>
+    Área Habitable: ${areaHabitacional.toFixed(2)} m²<br>
+    Área de Circulación: ${areaCirculacion.toFixed(2)} m²<br>
+    Terrazas: ${areaTerrazas.toFixed(2)} m²<br>
+    Patios: ${areaPatios.toFixed(2)} m²<br>
+    Jardines: ${areaJardines.toFixed(2)} m²<br>
+    Área Exterior Equivalente: ${areaExteriorEquivalente.toFixed(2)} m²<br><br>
 
-const base = m2Equivalentes * tipo;
-const imprev = base * (+imprevistos.value / 100);
+    <strong>Desglose de Costos</strong><br>
+    Costo Construcción: $${costoConstruccion.toLocaleString()}<br>
+    Costo Exteriores: $${costoExteriores.toLocaleString()}<br>
+    Subtotal Obra: $${subtotalObra.toLocaleString()}<br>
+    Planeación y Trámites: $${costoPlaneacion.toLocaleString()}<br><br>
 
-const planeacion = 25000 + (m2Equivalentes * 375) + (m2Equivalentes * 80);
+    <strong>Total Estimado de Obra:</strong><br>
+    $${totalObra.toLocaleString()}<br><br>
 
-const terreno = +tamano_terreno.value * +costo_terreno_m2.value;
-
-const total = base + imprev + planeacion + terreno;
-
-resultado.innerHTML = `
-<b>Área equivalente:</b> ${m2Equivalentes.toFixed(2)} m²<br>
-<b>Construcción:</b> $${formatear(base + imprev)}<br>
-<b>Planeación y trámites:</b> $${formatear(planeacion)}<br>
-<b>Terreno:</b> $${formatear(terreno)}<br><br>
-<b>Total estimado del proyecto:</b><br>
-$${formatear(total)}
-`;
+    <strong>Valor Referencial del Terreno:</strong><br>
+    $${valorTerreno.toLocaleString()}
+  `;
 }
 </script>
 
