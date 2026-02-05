@@ -1,183 +1,221 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Estimador de Costos de Construcción</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<title>Estimador Paramétrico por Espacios</title>
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    h1, h2 {
-      margin-top: 0;
-    }
-
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 6px;
-      margin-top: 4px;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 10px;
-      width: 100%;
-      font-size: 16px;
-      background: #2c7be5;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #1a5fb4;
-    }
-
-    .result {
-      margin-top: 30px;
-      background: #fafafa;
-      padding: 15px;
-      border-radius: 4px;
-      border: 1px solid #ddd;
-    }
-
-    .footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #555;
-    }
-
-    .note {
-      font-size: 12px;
-      color: #666;
-      margin-top: 10px;
-    }
-  </style>
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f2f2f2;
+  padding:20px;
+}
+.container{
+  max-width:1000px;
+  margin:auto;
+  background:#fff;
+  padding:25px;
+  border-radius:6px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+h1,h2,h3{margin-top:0}
+label{display:block;margin-top:12px;font-weight:bold}
+input,select{
+  width:100%;
+  padding:6px;
+  margin-top:4px;
+}
+button{
+  margin-top:25px;
+  padding:12px;
+  width:100%;
+  font-size:16px;
+  background:#1f6feb;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+button:hover{background:#164db5}
+.result{
+  margin-top:30px;
+  background:#fafafa;
+  padding:20px;
+  border:1px solid #ddd;
+  border-radius:4px;
+}
+.footer{
+  margin-top:30px;
+  font-size:12px;
+  color:#555;
+}
+.note{margin-top:10px;color:#666}
+</style>
 </head>
 
 <body>
 <div class="container">
 
-  <h1>Estimador de Costos de Construcción</h1>
+<h1>Estimador Paramétrico de Costos de Construcción</h1>
 
-  <h2>Áreas del Proyecto (m²)</h2>
+<h2>1. Programa Arquitectónico</h2>
 
-  <label>Área Habitable</label>
-  <input type="number" id="areaHabitacional" value="0">
+<label>Recámaras</label>
+<input type="number" id="recamaras" value="0">
 
-  <label>Área de Circulación (pasillos, escaleras)</label>
-  <input type="number" id="areaCirculacion" value="0">
+<label>Baños</label>
+<input type="number" id="banos" value="0">
 
-  <label>Terrazas (no cuentan como circulación)</label>
-  <input type="number" id="areaTerrazas" value="0">
+<label>Salas</label>
+<input type="number" id="salas" value="0">
 
-  <label>Patios</label>
-  <input type="number" id="areaPatios" value="0">
+<label>Comedores</label>
+<input type="number" id="comedores" value="0">
 
-  <label>Jardines</label>
-  <input type="number" id="areaJardines" value="0">
+<label>Cocinas</label>
+<input type="number" id="cocinas" value="0">
 
-  <h2>Parámetros</h2>
+<label>Estudios / Home Office</label>
+<input type="number" id="estudios" value="0">
 
-  <label>Nivel de Construcción</label>
-  <select id="nivel">
-    <option value="13000">Básico – $13,000 / m²</option>
-    <option value="18000">Medio – $18,000 / m²</option>
-    <option value="24000">Alto – $24,000 / m²</option>
-  </select>
+<label>Áreas de Servicio</label>
+<input type="number" id="servicio" value="0">
 
-  <label>Factor Patios y Jardines</label>
-  <input type="number" id="factorExterior" value="0.35" step="0.05">
+<h2>2. Espacios Exteriores</h2>
 
-  <label>Planeación y Trámites (%)</label>
-  <input type="number" id="factorPlaneacion" value="8">
+<label>Terrazas (m²)</label>
+<input type="number" id="terrazas" value="0">
 
-  <label>Valor del Terreno (referencial)</label>
-  <input type="number" id="valorTerreno" value="0">
+<label>Patios (m²)</label>
+<input type="number" id="patios" value="0">
 
-  <button onclick="calcular()">Calcular Estimación</button>
+<label>Jardines (m²)</label>
+<input type="number" id="jardines" value="0">
 
-  <div class="result" id="resultado"></div>
+<h2>3. Parámetros</h2>
 
-  <div class="footer">
-    <strong>Nota importante:</strong>
-    <div class="note">
-      Esta herramienta es una estimación paramétrica.  
-      El valor del terreno se muestra de forma informativa y no se suma al costo de obra.  
-      Patios y terrazas no se consideran áreas de circulación.  
-      Los costos reales pueden variar según proyecto ejecutivo, mercado y condiciones locales.
-    </div>
-  </div>
+<label>Nivel de Construcción</label>
+<select id="nivel">
+  <option value="13000">Básico – $13,000 / m²</option>
+  <option value="18000">Medio – $18,000 / m²</option>
+  <option value="24000">Alto – $24,000 / m²</option>
+</select>
+
+<label>Circulación Interior (%)</label>
+<input type="number" id="factorCirculacion" value="12">
+
+<label>Factor Patios y Jardines</label>
+<input type="number" id="factorExterior" value="0.35" step="0.05">
+
+<label>Planeación, Proyecto y Trámites (%)</label>
+<input type="number" id="factorPlaneacion" value="8">
+
+<label>Valor Referencial del Terreno</label>
+<input type="number" id="valorTerreno" value="0">
+
+<button onclick="calcular()">Calcular Estimación</button>
+
+<div class="result" id="resultado"></div>
+
+<div class="footer">
+<strong>Notas Técnicas</strong>
+<div class="note">
+• Las superficies por espacio son paramétricas y ocultas.<br>
+• La circulación se calcula automáticamente.<br>
+• Patios y jardines se ponderan, no se consideran construcción directa.<br>
+• El valor del terreno es informativo y no se suma al costo de obra.<br>
+• Estimación conceptual para toma de decisiones tempranas.
+</div>
+</div>
 
 </div>
 
 <script>
-function calcular() {
+function calcular(){
 
-  const areaHabitacional = Number(document.getElementById("areaHabitacional").value);
-  const areaCirculacion = Number(document.getElementById("areaCirculacion").value);
-  const areaTerrazas = Number(document.getElementById("areaTerrazas").value);
-  const areaPatios = Number(document.getElementById("areaPatios").value);
-  const areaJardines = Number(document.getElementById("areaJardines").value);
+// SUPERFICIES PROMEDIO (m²) – OCULTAS
+const SUP = {
+  recamara: 12,
+  bano: 4.5,
+  sala: 20,
+  comedor: 14,
+  cocina: 12,
+  estudio: 10,
+  servicio: 6
+};
 
-  const costoM2 = Number(document.getElementById("nivel").value);
-  const factorExterior = Number(document.getElementById("factorExterior").value);
-  const factorPlaneacion = Number(document.getElementById("factorPlaneacion").value) / 100;
-  const valorTerreno = Number(document.getElementById("valorTerreno").value);
+// ESPACIOS
+const rec = Number(recamaras.value);
+const ban = Number(banos.value);
+const sal = Number(salas.value);
+const com = Number(comedores.value);
+const coc = Number(cocinas.value);
+const est = Number(estudios.value);
+const ser = Number(servicio.value);
 
-  // Áreas consideradas
-  const areaConstruida = areaHabitacional + areaCirculacion + areaTerrazas;
-  const areaExteriorEquivalente = (areaPatios + areaJardines) * factorExterior;
+// EXTERIORES
+const ter = Number(terrazas.value);
+const pat = Number(patios.value);
+const jar = Number(jardines.value);
 
-  // Costos
-  const costoConstruccion = areaConstruida * costoM2;
-  const costoExteriores = areaExteriorEquivalente * costoM2;
-  const subtotalObra = costoConstruccion + costoExteriores;
-  const costoPlaneacion = subtotalObra * factorPlaneacion;
-  const totalObra = subtotalObra + costoPlaneacion;
+// PARÁMETROS
+const costoM2 = Number(nivel.value);
+const fCirc = Number(factorCirculacion.value)/100;
+const fExt = Number(factorExterior.value);
+const fPlan = Number(factorPlaneacion.value)/100;
+const terreno = Number(valorTerreno.value);
 
-  document.getElementById("resultado").innerHTML = `
-    <h2>Resultado de la Estimación</h2>
+// ÁREA HABITABLE
+const areaHabitable =
+  rec * SUP.recamara +
+  ban * SUP.bano +
+  sal * SUP.sala +
+  com * SUP.comedor +
+  coc * SUP.cocina +
+  est * SUP.estudio +
+  ser * SUP.servicio;
 
-    <strong>Desglose de Áreas</strong><br>
-    Área Habitable: ${areaHabitacional.toFixed(2)} m²<br>
-    Área de Circulación: ${areaCirculacion.toFixed(2)} m²<br>
-    Terrazas: ${areaTerrazas.toFixed(2)} m²<br>
-    Patios: ${areaPatios.toFixed(2)} m²<br>
-    Jardines: ${areaJardines.toFixed(2)} m²<br>
-    Área Exterior Equivalente: ${areaExteriorEquivalente.toFixed(2)} m²<br><br>
+// CIRCULACIÓN (NO incluye terrazas)
+const areaCirculacion = areaHabitable * fCirc;
 
-    <strong>Desglose de Costos</strong><br>
-    Costo Construcción: $${costoConstruccion.toLocaleString()}<br>
-    Costo Exteriores: $${costoExteriores.toLocaleString()}<br>
-    Subtotal Obra: $${subtotalObra.toLocaleString()}<br>
-    Planeación y Trámites: $${costoPlaneacion.toLocaleString()}<br><br>
+// ÁREA CONSTRUIDA
+const areaConstruida = areaHabitable + areaCirculacion + ter;
 
-    <strong>Total Estimado de Obra:</strong><br>
-    $${totalObra.toLocaleString()}<br><br>
+// EXTERIORES PONDERADOS
+const areaExteriorEq = (pat + jar) * fExt;
 
-    <strong>Valor Referencial del Terreno:</strong><br>
-    $${valorTerreno.toLocaleString()}
-  `;
+// COSTOS
+const costoConstruccion = areaConstruida * costoM2;
+const costoExterior = areaExteriorEq * costoM2;
+const subtotal = costoConstruccion + costoExterior;
+const costoPlaneacion = subtotal * fPlan;
+const total = subtotal + costoPlaneacion;
+
+resultado.innerHTML = `
+<h2>Resultado de la Estimación</h2>
+
+<h3>Programa Arquitectónico (Área Calculada)</h3>
+Área Habitable: ${areaHabitable.toFixed(2)} m²<br>
+Circulación: ${areaCirculacion.toFixed(2)} m²<br>
+Terrazas: ${ter.toFixed(2)} m²<br>
+<strong>Área Construida Total:</strong> ${areaConstruida.toFixed(2)} m²<br><br>
+
+Patios: ${pat.toFixed(2)} m²<br>
+Jardines: ${jar.toFixed(2)} m²<br>
+Área Exterior Equivalente: ${areaExteriorEq.toFixed(2)} m²<br><br>
+
+<h3>Costos</h3>
+Construcción: $${costoConstruccion.toLocaleString()}<br>
+Exteriores: $${costoExterior.toLocaleString()}<br>
+Subtotal Obra: $${subtotal.toLocaleString()}<br>
+Planeación y Trámites: $${costoPlaneacion.toLocaleString()}<br><br>
+
+<h3>Total Estimado de Obra</h3>
+<strong>$${total.toLocaleString()}</strong><br><br>
+
+<h3>Terreno (referencial)</h3>
+$${terreno.toLocaleString()}
+`;
 }
 </script>
 
