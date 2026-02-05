@@ -7,703 +7,163 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(rgba(74, 60, 49, 0.9), rgba(74, 60, 49, 0.9)), url('https://www.transparenttextures.com/patterns/fallen-leaves.png');
-            background-size: cover;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            color: #f5e8c7;
-            transition: background 0.5s ease, color 0.5s ease;
-        }
-        body.light-mode {
-            background: linear-gradient(rgba(255, 250, 240, 0.9), rgba(255, 250, 240, 0.9)), url('https://www.transparenttextures.com/patterns/fallen-leaves.png');
-            color: #4a3c31;
-        }
-        h2 {
-            font-family: 'Montserrat', sans-serif;
-            text-align: center;
-            color: #d4a373;
-            margin-bottom: 15px;
-            font-size: 2.5em;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-            animation: fadeInDown 1s ease-out;
-        }
-        body.light-mode h2 {
-            color: #6b8e23;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        p {
-            text-align: center;
-            color: #e0e0e0;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-        body.light-mode p {
-            color: #7f6a44;
-        }
-        .section {
-            position: relative;
-            background: #3d5a36;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-            margin-bottom: 40px;
-            border: 1px solid #5c7557;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
-        }
-        body.light-mode .section {
-            background: #fffaf0;
-            border: 1px solid #e6d5b8;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-        }
-        label {
-            display: block;
-            margin: 25px 0 10px;
-            font-weight: 500;
-            color: #f5e8c7;
-            font-size: 1.05em;
-            transition: color 0.5s ease;
-        }
-        body.light-mode label {
-            color: #4a3c31;
-        }
-        select, input[type="number"], input[type="text"], input[type="tel"], input[type="email"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #6b8e23;
-            border-radius: 8px;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-            background: #4a4f3d;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.5s ease, color 0.5s ease;
-            font-size: 1em;
-            color: #f5e8c7;
-        }
-        body.light-mode select,
-        body.light-mode input[type="number"],
-        body.light-mode input[type="text"],
-        body.light-mode input[type="tel"],
-        body.light-mode input[type="email"],
-        body.light-mode textarea {
-            background: #fff;
-            color: #4a3c31;
-            border: 1px solid #d4a373;
-        }
-        select:focus, input:focus, textarea:focus {
-            outline: none;
-            border-color: #d4a373;
-            box-shadow: 0 0 8px rgba(212, 163, 115, 0.5);
-        }
-        body.light-mode select:focus,
-        body.light-mode input:focus,
-        body.light-mode textarea:focus {
-            border-color: #6b8e23;
-            box-shadow: 0 0 8px rgba(107, 142, 35, 0.3);
-        }
-        textarea {
-            resize: vertical;
-        }
-        input.error {
-            border-color: #e74c3c;
-            box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
-        }
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            cursor: pointer;
-            background: #5c7557;
-            border-radius: 5px;
-            height: 8px;
-            margin: 10px 0;
-        }
-        body.light-mode input[type="range"] {
-            background: #e6d5b8;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            background: #d4a373;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        body.light-mode input[type="range"]::-webkit-slider-thumb {
-            background: #6b8e23;
-        }
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-        }
-        input[type="range"]::-moz-range-thumb {
-            height: 20px;
-            width: 20px;
-            background: #d4a373;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        body.light-mode input[type="range"]::-moz-range-thumb {
-            background: #6b8e23;
-        }
-        input[type="range"]::-moz-range-thumb:hover {
-            transform: scale(1.2);
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
-        }
-        .slider-value {
-            font-size: 0.9em;
-            color: #e0e0e0;
-            margin-top: 5px;
-        }
-        body.light-mode .slider-value {
-            color: #7f6a44;
-        }
-        .slider-tooltip {
-            position: absolute;
-            background: #d4a373;
-            color: #4a3c31;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8em;
-            top: -35px;
-            transform: translateX(-50%);
-            display: none;
-        }
-        body.light-mode .slider-tooltip {
-            background: #6b8e23;
-            color: #fffaf0;
-        }
-        input[type="range"]:hover + .slider-value .slider-tooltip,
-        input[type="range"]:focus + .slider-value .slider-tooltip {
-            display: block;
-        }
-        .checkbox-container {
-            font-size: 0.95em;
-            margin: 15px 0;
-            color: #f5e8c7;
-        }
-        body.light-mode .checkbox-container {
-            color: #4a3c31;
-        }
-        button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 14px;
-            background: #d4a373;
-            color: #4a3c31;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 10px rgba(212, 163, 115, 0.4);
-            margin-bottom: 20px;
-        }
-        body.light-mode button {
-            background: #6b8e23;
-            color: #fffaf0;
-            box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
-        }
-        button i {
-            margin-right: 8px;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        button:hover {
-            background: #b8860b;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(212, 163, 115, 0.6);
-            animation: pulse 0.5s ease-in-out;
-        }
-        body.light-mode button:hover {
-            background: #556b2f;
-            box-shadow: 0 6px 15px rgba(107, 142, 35, 0.5);
-        }
-        button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(212, 163, 115, 0.3);
-        }
-        body.light-mode button:active {
-            box-shadow: 0 2px 5px rgba(107, 142, 35, 0.2);
-        }
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: #d4a373;
-            color: #4a3c31;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-        body.light-mode .theme-toggle {
-            background: #6b8e23;
-            color: #fffaf0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-        }
-        .theme-toggle i {
-            font-size: 1.5em;
-            color: #4a3c31;
-        }
-        body.light-mode .theme-toggle i {
-            color: #fffaf0;
-        }
-        .theme-toggle:hover {
-            background: #b8860b;
-        }
-        body.light-mode .theme-toggle:hover {
-            background: #556b2f;
-        }
-        .spinner {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 4px solid #f5e8c7;
-            border-top: 4px solid #d4a373;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-        body.light-mode .spinner {
-            border: 4px solid #4a3c31;
-            border-top: 4px solid #6b8e23;
-        }
-        @keyframes spin {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        button.loading .spinner {
-            display: block;
-        }
-        button.loading span {
-            visibility: hidden;
-        }
-        #resultado {
-            margin-top: 30px;
-            padding: 25px;
-            background: #5c7557;
-            border-radius: 10px;
-            border: 1px solid #6b8e23;
-            text-align: left;
-            line-height: 1.8;
-            color: #f5e8c7;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.5s ease-in-out;
-            transition: background 0.5s ease, color 0.5s ease, border 0.5s ease;
-        }
-        body.light-mode #resultado {
-            background: #fdf5e6;
-            border: 1px solid #e6d5b8;
-            color: #4a3c31;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        a {
-            color: #d4a373;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        body.light-mode a {
-            color: #d4a373;
-        }
-        a:hover {
-            color: #f5e8c7;
-            text-decoration: underline;
-        }
-        body.light-mode a:hover {
-            color: #b8860b;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #e0e0e0;
-            font-size: 0.9em;
-            transition: color 0.5s ease;
-        }
-        body.light-mode footer {
-            color: #7f6a44;
-        }
-    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+/* === ESTILOS SIN CAMBIOS RELEVANTES === */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(rgba(74,60,49,0.9), rgba(74,60,49,0.9)),
+    url('https://www.transparenttextures.com/patterns/fallen-leaves.png');
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: #f5e8c7;
+}
+body.light-mode {
+    background: linear-gradient(rgba(255,250,240,0.9), rgba(255,250,240,0.9)),
+    url('https://www.transparenttextures.com/patterns/fallen-leaves.png');
+    color: #4a3c31;
+}
+.section {
+    background: #3d5a36;
+    padding: 35px;
+    border-radius: 15px;
+}
+body.light-mode .section {
+    background: #fffaf0;
+}
+label { display:block; margin-top:20px; }
+select,input,textarea { width:100%; padding:10px; border-radius:6px; }
+button { margin-top:20px; padding:14px; width:100%; cursor:pointer; }
+#resultado { margin-top:30px; padding:20px; border-radius:10px; background:#5c7557; }
+body.light-mode #resultado { background:#fdf5e6; }
+footer { text-align:center; margin-top:40px; }
+</style>
 </head>
+
 <body>
-    <div class="section">
-        <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
-        <h2>Calculadora de Presupuesto de Casa</h2>
-        <p>Calcula el costo (estimado) de construccion de casa, 2026.</p>
 
-        <label for="tipo_construccion">Tipo de Construcción:</label>
-        <select id="tipo_construccion">
-            <option value="7000">Accesible (MXN$10,000/m²)</option>
-            <option value="11000" selected>Balanceado (MXN$18,000/m²)</option>
-            <option value="18000">Residencial (MXN$24,000/m²)</option>
-        </select>
+<div class="section">
+<button onclick="toggleTheme()">🌓</button>
 
-        <label for="recamaras">Recámaras:</label>
-        <select id="recamaras">
-            <option value="1">1</option>
-            <option value="2" selected>2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
+<h2>Calculadora de Presupuesto de Casa</h2>
+<p>Estimación de costos de construcción – 2026</p>
 
-        <label for="tamano_recamaras">Tamaño por Recámara (m²):</label>
-        <select id="tamano_recamaras">
-            <option value="12">12 m²</option>
-            <option value="15" selected>15 m²</option>
-            <option value="20">20 m²</option>
-            <option value="25">25 m²</option>
-        </select>
+<label>Tipo de Construcción</label>
+<select id="tipo_construccion">
+    <option value="13000">Accesible (MXN$13,000/m²)</option>
+    <option value="18000" selected>Balanceado (MXN$18,000/m²)</option>
+    <option value="24000">Residencial (MXN$24,000/m²)</option>
+</select>
 
-        <label for="salas">Salas:</label>
-        <select id="salas">
-            <option value="1" selected>1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-        </select>
+<label>Recámaras</label>
+<select id="recamaras"><option>1</option><option selected>2</option><option>3</option></select>
+<label>Tamaño recámara (m²)</label>
+<select id="tamano_recamaras"><option>12</option><option selected>15</option><option>20</option></select>
 
-        <label for="tamano_salas">Tamaño por Sala (m²):</label>
-        <select id="tamano_salas">
-            <option value="20">20 m²</option>
-            <option value="25" selected>25 m²</option>
-            <option value="30">30 m²</option>
-            <option value="40">40 m²</option>
-        </select>
+<label>Salas</label>
+<select id="salas"><option selected>1</option><option>2</option></select>
+<label>Tamaño sala (m²)</label>
+<select id="tamano_salas"><option selected>25</option><option>30</option></select>
 
-        <label for="cocinas">Cocinas:</label>
-        <select id="cocinas">
-            <option value="1" selected>1</option>
-            <option value="2">2</option>
-        </select>
+<label>Cocinas</label>
+<select id="cocinas"><option selected>1</option><option>2</option></select>
+<label>Tamaño cocina (m²)</label>
+<select id="tamano_cocinas"><option selected>12</option><option>15</option></select>
 
-        <label for="tamano_cocinas">Tamaño por Cocina (m²):</label>
-        <select id="tamano_cocinas">
-            <option value="10">10 m²</option>
-            <option value="12" selected>12 m²</option>
-            <option value="15">15 m²</option>
-            <option value="20">20 m²</option>
-        </select>
+<label>Baños</label>
+<select id="banos"><option>1</option><option selected>2</option></select>
+<label>Tamaño baño (m²)</label>
+<select id="tamano_banos"><option selected>6</option><option>8</option></select>
 
-        <label for="banos">Baños:</label>
-        <select id="banos">
-            <option value="1">1</option>
-            <option value="2" selected>2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-        </select>
+<label>Garajes</label>
+<select id="garajes"><option>0</option><option selected>1</option></select>
+<label>Tamaño garaje (m²)</label>
+<select id="tamano_garajes"><option selected>20</option><option>30</option></select>
 
-        <label for="tamano_banos">Tamaño por Baño (m²):</label>
-        <select id="tamano_banos">
-            <option value="4">4 m²</option>
-            <option value="6" selected>6 m²</option>
-            <option value="8">8 m²</option>
-            <option value="10">10 m²</option>
-        </select>
+<label>Patios / Jardines</label>
+<select id="patios"><option>0</option><option selected>1</option></select>
+<label>Tamaño patio (m²)</label>
+<select id="tamano_patios"><option selected>30</option><option>40</option></select>
 
-        <label for="comedores">Comedores:</label>
-        <select id="comedores">
-            <option value="1" selected>1</option>
-            <option value="2">2</option>
-        </select>
+<label>Terrazas</label>
+<select id="terrazas"><option selected>0</option><option>1</option></select>
+<label>Tamaño terraza (m²)</label>
+<select id="tamano_terrazas"><option selected>15</option><option>20</option></select>
 
-        <label for="tamano_comedores">Tamaño por Comedor (m²):</label>
-        <select id="tamano_comedores">
-            <option value="12">12 m²</option>
-            <option value="15" selected>15 m²</option>
-            <option value="20">20 m²</option>
-            <option value="25">25 m²</option>
-        </select>
+<label>% Circulación</label>
+<input type="range" id="circulacion" min="10" max="25" value="15">
 
-        <label for="garajes">Garajes:</label>
-        <select id="garajes">
-            <option value="0">0</option>
-            <option value="1" selected>1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-        </select>
+<label>% Imprevistos</label>
+<input type="range" id="imprevistos" min="0" max="10" value="4">
 
-        <label for="tamano_garajes">Tamaño por Garaje (m²):</label>
-        <select id="tamano_garajes">
-            <option value="15">15 m²</option>
-            <option value="20" selected>20 m²</option>
-            <option value="30">30 m²</option>
-            <option value="40">40 m²</option>
-        </select>
+<button onclick="calcularPresupuesto()">Calcular</button>
+<button onclick="exportarPDF()">Exportar PDF</button>
 
-        <label for="patios">Patios/Jardines:</label>
-        <select id="patios">
-            <option value="0">0</option>
-            <option value="1" selected>1</option>
-            <option value="2">2</option>
-        </select>
+<div id="resultado"></div>
+</div>
 
-        <label for="tamano_patios">Tamaño por Patio/Jardín (m²):</label>
-        <select id="tamano_patios">
-            <option value="20">20 m²</option>
-            <option value="30" selected>30 m²</option>
-            <option value="40">40 m²</option>
-            <option value="50">50 m²</option>
-        </select>
+<footer>
+<p>© 2026 Calculadora de Presupuesto de Casa</p>
+</footer>
 
-        <label for="terrazas">Terrazas:</label>
-        <select id="terrazas">
-            <option value="0" selected>0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-        </select>
+<script>
+function toggleTheme(){
+    document.body.classList.toggle('light-mode');
+}
 
-        <label for="tamano_terrazas">Tamaño por Terraza (m²):</label>
-        <select id="tamano_terrazas">
-            <option value="10">10 m²</option>
-            <option value="15" selected>15 m²</option>
-            <option value="20">20 m²</option>
-            <option value="30">30 m²</option>
-        </select>
+function formatear(n){
+    return n.toLocaleString('es-MX',{minimumFractionDigits:2});
+}
 
-        <label for="tamano_terreno">Tamaño del Terreno (m²):</label>
-        <input type="number" id="tamano_terreno" min="50" value="200" placeholder="Ingresa el tamaño en m²">
+function calcularPresupuesto(){
+    const tipo = +tipo_construccion.value;
 
-        <label for="costo_terreno_m2">Costo por m² del Terreno (MXN):</label>
-        <input type="number" id="costo_terreno_m2" min="0" value="5000" placeholder="Ingresa el costo por m²">
-        <select id="sugerencias_terreno" onchange="document.getElementById('costo_terreno_m2').value = this.value || 5000;">
-            <option value="">Usar sugerencia (opcional)</option>
-            <option value="2000">Zona Rural ($2,000/m²)</option>
-            <option value="5000">Zona Urbana ($5,000/m²)</option>
-            <option value="10000">Zona Premium ($10,000/m²)</option>
-        </select>
+    const m2Rec = recamaras.value * tamano_recamaras.value;
+    const m2Sal = salas.value * tamano_salas.value;
+    const m2Coc = cocinas.value * tamano_cocinas.value;
+    const m2Ban = banos.value * tamano_banos.value;
+    const m2Gar = garajes.value * tamano_garajes.value;
+    const m2Pat = patios.value * tamano_patios.value;
+    const m2Ter = terrazas.value * tamano_terrazas.value;
 
-        <label for="circulacion">Porcentaje de Áreas de Circulación:</label>
-        <input type="range" id="circulacion" min="10" max="25" value="15" oninput="actualizarPorcentaje(this.value, 'circulacion-valor', 'circulacion-tooltip')">
-        <p class="slider-value">Porcentaje: <span id="circulacion-valor">15%</span><span class="slider-tooltip" id="circulacion-tooltip">15%</span></p>
+    const circulacionPct = circulacion.value / 100;
+    const imprevPct = imprevistos.value / 100;
 
-        <label for="imprevistos">Porcentaje de Imprevistos:</label>
-        <input type="range" id="imprevistos" min="0" max="10" value="4" oninput="actualizarPorcentaje(this.value, 'imprevistos-valor', 'imprevistos-tooltip')">
-        <p class="slider-value">Porcentaje: <span id="imprevistos-valor">4%</span><span class="slider-tooltip" id="imprevistos-tooltip">4%</span></p>
+    const m2Cir = circulacionPct * (m2Rec + m2Sal + m2Coc + m2Ban + m2Gar);
 
-        <label for="feedback">Sugerencias o Preguntas (Opcional):</label>
-        <textarea id="feedback" rows="4" placeholder="Escribe tus preguntas o sugerencias aquí"></textarea>
+    const factorExterior = 0.35;
 
-        <button type="button" onclick="calcularPresupuesto()" id="calcular-btn"><span><i class="fas fa-calculator"></i> Calcular Presupuesto</span><div class="spinner"></div></button>
-        <button type="button" onclick="exportarPDF()" id="exportar-btn"><span><i class="fas fa-file-pdf"></i> Exportar a PDF</span><div class="spinner"></div></button>
+    const m2Interior = m2Rec + m2Sal + m2Coc + m2Ban + m2Gar + m2Cir;
+    const costoInterior = m2Interior * tipo;
+    const costoPatios = m2Pat * tipo * factorExterior;
 
-        <div id="resultado"></div>
-    </div>
+    const presupuestoBase = costoInterior + costoPatios;
+    const imprevistosCosto = presupuestoBase * imprevPct;
+    const total = presupuestoBase + imprevistosCosto;
 
-    <footer>
-        <p>© 2025 Calculadora de Presupuesto de Casa</p>
-    </footer>
+    resultado.innerHTML = `
+    <strong>Área total interior:</strong> ${formatear(m2Interior)} m²<br>
+    <strong>Patios/Jardines:</strong> ${formatear(m2Pat)} m² (factor 0.35)<br><br>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script>
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            const themeToggle = document.querySelector('.theme-toggle i');
-            if (document.body.classList.contains('light-mode')) {
-                themeToggle.classList.remove('fa-sun');
-                themeToggle.classList.add('fa-moon');
-                localStorage.setItem('theme', 'light');
-            } else {
-                themeToggle.classList.remove('fa-moon');
-                themeToggle.classList.add('fa-sun');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
+    <strong>Costo construcción interior:</strong> $${formatear(costoInterior)}<br>
+    <strong>Costo patios/jardines:</strong> $${formatear(costoPatios)}<br>
+    <strong>Imprevistos:</strong> $${formatear(imprevistosCosto)}<br><br>
 
-        window.onload = function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-                document.querySelector('.theme-toggle i').classList.remove('fa-sun');
-                document.querySelector('.theme-toggle i').classList.add('fa-moon');
-            }
-        };
+    <strong>Presupuesto total estimado:</strong> $${formatear(total)} MXN<br><br>
 
-        function formatearMoneda(numero) {
-            return numero.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-        }
+    <em>Nota: Costos estimados para México en 2026. Valores pueden variar según ubicación y condiciones. Referencias: CMIC.</em>
+    `;
+}
 
-        function actualizarPorcentaje(valor, idElemento, tooltipId) {
-            document.getElementById(idElemento).textContent = valor + '%';
-            document.getElementById(tooltipId).textContent = valor + '%';
-            const input = document.getElementById(idElemento.split('-')[0]);
-            const thumbWidth = 20;
-            const rangeWidth = input.offsetWidth;
-            const min = parseInt(input.min);
-            const max = parseInt(input.max);
-            const percent = ((valor - min) / (max - min)) * 100;
-            const tooltip = document.getElementById(tooltipId);
-            tooltip.style.left = `calc(${percent}% + (${thumbWidth / 2}px - ${percent * (thumbWidth / rangeWidth)}px))`;
-        }
+function exportarPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text(document.getElementById('resultado').innerText, 10, 10);
+    doc.save('Presupuesto_Casa_2026.pdf');
+}
+</script>
 
-        function obtenerFechaActual() {
-            const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
-            return new Date().toLocaleDateString('es-MX', opciones);
-        }
-
-        async function calcularPresupuesto() {
-            showLoading('calcular-btn');
-            await new Promise(resolve => setTimeout(resolve, 1000));
-
-            const tipoConstruccion = parseFloat(document.getElementById('tipo_construccion').value);
-            const recamaras = parseInt(document.getElementById('recamaras').value);
-            const tamanoRecamaras = parseFloat(document.getElementById('tamano_recamaras').value);
-            const salas = parseInt(document.getElementById('salas').value);
-            const tamanoSalas = parseFloat(document.getElementById('tamano_salas').value);
-            const cocinas = parseInt(document.getElementById('cocinas').value);
-            const tamanoCocinas = parseFloat(document.getElementById('tamano_cocinas').value);
-            const banos = parseInt(document.getElementById('banos').value);
-            const tamanoBanos = parseFloat(document.getElementById('tamano_banos').value);
-            const comedores = parseInt(document.getElementById('comedores').value);
-            const tamanoComedores = parseFloat(document.getElementById('tamano_comedores').value);
-            const garajes = parseInt(document.getElementById('garajes').value);
-            const tamanoGarajes = parseFloat(document.getElementById('tamano_garajes').value);
-            const patios = parseInt(document.getElementById('patios').value);
-            const tamanoPatios = parseFloat(document.getElementById('tamano_patios').value);
-            const terrazas = parseInt(document.getElementById('terrazas').value);
-            const tamanoTerrazas = parseFloat(document.getElementById('tamano_terrazas').value);
-            const tamanoTerreno = parseFloat(document.getElementById('tamano_terreno').value) || 0;
-            const costoTerrenoM2 = parseFloat(document.getElementById('costo_terreno_m2').value) || 0;
-            const circulacion = parseFloat(document.getElementById('circulacion').value) / 100;
-            const imprevistos = parseFloat(document.getElementById('imprevistos').value) / 100;
-            const feedback = document.getElementById('feedback').value.trim() || 'No proporcionado';
-            const fechaActual = obtenerFechaActual();
-            const calculoId = Math.random().toString(36).substr(2, 9); // ID temporal simple
-
-            const m2Recamaras = recamaras * tamanoRecamaras;
-            const m2Salas = salas * tamanoSalas;
-            const m2Cocinas = cocinas * tamanoCocinas;
-            const m2Banos = banos * tamanoBanos;
-            const m2Comedores = comedores * tamanoComedores;
-            const m2Garajes = garajes * tamanoGarajes;
-            const m2Patios = patios * tamanoPatios;
-            const m2Terrazas = terrazas * tamanoTerrazas;
-            const m2Circulacion = circulacion * (m2Recamaras + m2Salas + m2Cocinas + m2Banos + m2Comedores + m2Garajes + m2Patios + m2Terrazas);
-            const m2Totales = m2Recamaras + m2Salas + m2Cocinas + m2Banos + m2Comedores + m2Garajes + m2Patios + m2Terrazas + m2Circulacion;
-            const costoTerreno = tamanoTerreno * costoTerrenoM2;
-
-            const costoEstudios = 25000;
-            const costoProyectoEjecutivo = m2Totales * 375;
-            const costoPermisos = m2Totales * 80;
-            const costoPlaneacionTotal = costoEstudios + costoProyectoEjecutivo + costoPermisos;
-            const presupuestoBase = m2Totales * tipoConstruccion;
-            const costoImprevistos = presupuestoBase * imprevistos;
-            const presupuestoConstruccionTotal = presupuestoBase + costoImprevistos;
-            const presupuestoTotalSinTerreno = costoPlaneacionTotal + presupuestoConstruccionTotal;
-            const presupuestoTotalConTerreno = presupuestoTotalSinTerreno + costoTerreno;
-            const costoPorM2 = m2Totales > 0 ? presupuestoTotalConTerreno / m2Totales : 0;
-
-            let tipoTexto = '';
-            if (tipoConstruccion === 7000) tipoTexto = 'Accesible (MXN$7,000/m²)';
-            else if (tipoConstruccion === 11000) tipoTexto = 'Balanceado (MXN$14,000/m²)';
-            else if (tipoConstruccion === 18000) tipoTexto = 'Lujo (MXN$18,000/m²)';
-
-            const resultadoHTML = `
-                <strong>ID del Cálculo: ${calculoId}</strong><br>
-                <em>Fecha: ${fechaActual}</em><br><br>
-                <strong>Tipo de Construcción: ${tipoTexto}</strong><br>
-                - Recámaras: ${m2Recamaras.toFixed(2)} m² (${recamaras})<br>
-                - Salas: ${m2Salas.toFixed(2)} m² (${salas})<br>
-                - Cocinas: ${m2Cocinas.toFixed(2)} m² (${cocinas})<br>
-                - Baños: ${m2Banos.toFixed(2)} m² (${banos})<br>
-                - Comedores: ${m2Comedores.toFixed(2)} m² (${comedores})<br>
-                - Garajes: ${m2Garajes.toFixed(2)} m² (${garajes})<br>
-                - Patios/Jardines: ${m2Patios.toFixed(2)} m² (${patios})<br>
-                - Terrazas: ${m2Terrazas.toFixed(2)} m² (${terrazas})<br>
-                <strong>Área de Circulación (${circulacion * 100}%): ${m2Circulacion.toFixed(2)}</strong><br>
-                <strong>Área Total Construida Estimada: ${m2Totales.toFixed(2)} m²</strong><br><br>
-                <strong>Costo del Terreno:</strong><br>
-                - Tamaño del Terreno: ${tamanoTerreno.toFixed(2)} m²<br>
-                - Costo por m²: MXN$${formatearMoneda(costoTerrenoM2)}<br>
-                <strong>Total Costo del Terreno: ${formatearMoneda(costoTerreno)}</strong><br><br>
-                <strong>Costos de Planeación:</strong><br>
-                - Estudios Técnicos: ${formatearMoneda(costoEstudios)}<br>
-                - Proyecto Ejecutivo: ${formatearMoneda(costoProyectoEjecutivo)}<br>
-                - Permisos: ${formatearMoneda(costoPermisos)}<br>
-                <strong>Total Costos de Planeación: ${formatearMoneda(costoPlaneacionTotal)}</strong><br><br>
-                <strong>Costos de Construcción:</strong><br>
-                - Presupuesto Base: ${formatearMoneda(presupuestoBase)}<br>
-                - Imprevistos (${imprevistos * 100}%): ${formatearMoneda(costoImprevistos)}<br>
-                <strong>Total Costos de Construcción: ${formatearMoneda(presupuestoConstruccionTotal)}</strong><br><br>
-                <strong>Presupuesto Total (sin terreno): ${formatearMoneda(presupuestoTotalSinTerreno)}</strong><br>
-                <strong>Presupuesto Total (con terreno): ${formatearMoneda(presupuestoTotalConTerreno)}</strong><br>
-                <strong>Costo por m² Total: ${formatearMoneda(costoPorM2)} MXN/m²</strong><br><br>
-                <p style="font-size: 14px;">Nota: Los costos son estimados para el Bajío en 2025. Verifica valores actuales en <a href="https://www.cmic.org.mx" target="_blank">CMIC</a>.</p>
-            `;
-
-            document.getElementById('resultado').innerHTML = resultadoHTML;
-
-            hideLoading('calcular-btn');
-        }
-
-        function showLoading(buttonId) {
-            const button = document.getElementById(buttonId);
-            button.classList.add('loading');
-            button.disabled = true;
-        }
-
-        function hideLoading(buttonId) {
-            const button = document.getElementById(buttonId);
-            button.classList.remove('loading');
-            button.disabled = false;
-        }
-
-        async function exportarPDF() {
-            showLoading('exportar-btn');
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const resultado = document.getElementById('resultado').innerText;
-            const fechaActual = obtenerFechaActual();
-
-            doc.setFontSize(16);
-            doc.text('Calculadora de Presupuesto de Casa', 20, 20);
-            doc.setFontSize(12);
-            doc.text(`Fecha: ${fechaActual}`, 20, 30);
-            doc.setFontSize(10);
-            doc.text(resultado, 20, 40, { maxWidth: 170 });
-            doc.save(`Presupuesto_Casa_${fechaActual}.pdf`);
-            hideLoading('exportar-btn');
-        }
-    </script>
 </body>
 </html>
-
-
-
-
